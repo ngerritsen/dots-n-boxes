@@ -1,0 +1,23 @@
+html {
+  font-size: 62.5%;
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Open sans';
+  font-size: 1.6rem;
+  text-align: center;
+}
+
+.container {
+  display: inline-block;
+}
+
+.title {
+  margin-bottom: 3rem;
+}

@@ -1,0 +1,43 @@
+@import 'variables';
+
+.edge {
+  background-color: darken($white, 20%);
+  border-radius: $edge-thickness / 2;
+  pointer-events: all;
+  position: absolute;
+
+  &:hover {
+    background-color: $blue;
+    cursor: pointer;
+  }
+
+  &.alt-top,
+  &.alt-bottom {
+    height: $edge-thickness;
+    left: $edge-thickness;
+    right: $edge-thickness;
+  }
+
+  &.alt-left,
+  &.alt-right {
+    bottom: $edge-thickness;
+    top: $edge-thickness;
+    width: $edge-thickness;
+  }
+
+  &.alt-top {
+    top: - $edge-thickness / 2;
+  }
+
+  &.alt-bottom {
+    bottom: - $edge-thickness / 2;
+  }
+
+  &.alt-left {
+    left: - $edge-thickness / 2;
+  }
+
+  &.alt-right {
+    right: - $edge-thickness / 2;
+  }
+}

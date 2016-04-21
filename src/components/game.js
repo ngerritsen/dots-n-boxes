@@ -5,7 +5,7 @@ import Score from './score'
 
 const Game = () => (
   <div>
-    <Board/>
+    <Board x={4} y={4}/>
     <Score/>
   </div>
 )

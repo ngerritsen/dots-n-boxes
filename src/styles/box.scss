@@ -1,0 +1,9 @@
+@import 'variables';
+
+.box {
+  display: inline-block;
+  height: $box-size;
+  pointer-events: none;
+  position: relative;
+  width: $box-size;
+}

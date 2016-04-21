@@ -3,8 +3,8 @@ import React from 'react'
 import Game from './game'
 
 const DotsNBoxes = () => (
-  <div>
-    <h1>DotsNBoxes</h1>
+  <div className="container">
+    <h1 className="title">Dots 'n boxes</h1>
     <Game/>
   </div>
 )
