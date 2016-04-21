@@ -6,20 +6,33 @@ import { generateGrid } from '../helpers/grid'
 
 import '../styles/board.scss'
 
-const Board = ({ x, y }) => (
+const Board = ({ makeMove, moves, width, height }) => (
   <div
     className="board"
     style={{
-      width: String(x * BOX_SIZE) + 'px'
+      width: String(width * BOX_SIZE) + 'px'
     }}
   >
-    {generateGrid(x, y).map(outer => <Box outer={outer}/>)}
+    {
+      generateGrid(width, height)
+        .map(({ outer, location }, i) => (
+          <Box
+            key={i}
+            makeMove={makeMove}
+            moves={moves}
+            outer={outer}
+            location={location}
+          />
+        ))
+    }
   </div>
 )
 
 Board.propTypes = {
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired
+  makeMove: PropTypes.func.isRequired,
+  moves: PropTypes.array.isRequired,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired
 }
 
 export default Board

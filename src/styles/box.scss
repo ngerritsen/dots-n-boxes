@@ -7,3 +7,13 @@
   position: relative;
   width: $box-size;
 }
+
+.box--fill {
+  background-color: lighten($blue, 20%);
+  border-radius: 4px;
+  height: $box-size - ($box-padding * 2);
+  left: $box-padding;
+  position: absolute;
+  top: $box-padding;
+  width: $box-size - ($box-padding * 2);
+}

@@ -4,20 +4,30 @@ export function generateGrid (x, y) {
   let cells = x * y
 
   for (i = 0; i < cells; i++) {
-    if (isOuterLeft(i, x) || isOuterTop(i, y)) {
-      grid.push(true)
-    } else {
-      grid.push(false)
+    const outer = isOuterLeft(i, x) || isOuterTop(i, y)
+    const location = calculateLocation(i, x, y)
+    const data = {
+      location,
+      outer
     }
+
+    grid.push(data)
   }
 
   return grid
 }
 
-function isOuterLeft(index, x) {
-  return index % x === 0
+function calculateLocation (i, x, y) {
+  const xCoord = i % x
+  const yCoord = Math.floor(i / y)
+
+  return [ xCoord, yCoord ]
 }
 
-function isOuterTop(index, x) {
-  return index < x
+function isOuterLeft (i, x) {
+  return i % x === 0
+}
+
+function isOuterTop (i, x) {
+  return i < x
 }
