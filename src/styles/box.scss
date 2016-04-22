@@ -9,11 +9,18 @@
 }
 
 .box--fill {
-  background-color: lighten($blue, 20%);
   border-radius: 4px;
   height: $box-size - ($box-padding * 2);
   left: $box-padding;
   position: absolute;
   top: $box-padding;
   width: $box-size - ($box-padding * 2);
+}
+
+.box.is-taken-by-player-0 .box--fill {
+  background-color: lighten($blue, 20%);
+}
+
+.box.is-taken-by-player-1 .box--fill {
+  background-color: lighten($orange, 20%);
 }

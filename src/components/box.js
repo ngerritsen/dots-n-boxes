@@ -4,31 +4,38 @@ import Edge from './edge'
 
 import '../styles/box.scss'
 
-const Box = ({ makeMove, edges, outer, taken }) => (
-  <div className="box">
+const Box = ({ activePlayer, makeMove, edges, outer, takenBy }) => (
+  <div
+    className={
+      'box' +
+      (takenBy !== -1 ? ` is-taken-by-player-${takenBy}` : '')
+    }
+  >
     {
       edges
         .filter(({ side }) => outer || (side !== 'top' && side !== 'left'))
-        .map(({ lineStart, lineEnd, taken: edgeTaken, side }) => (
+        .map(({ lineStart, lineEnd, takenBy: edgeTakenBy, side }) => (
           <Edge
             key={side}
+            activePlayer={activePlayer}
             lineStart={lineStart}
             lineEnd={lineEnd}
             makeMove={makeMove}
-            taken={edgeTaken}
+            takenBy={edgeTakenBy}
             side={side}
           />
         ))
     }
-    {taken && <div className="box--fill"></div>}
+    <div className="box--fill"></div>
   </div>
 )
 
 Box.propTypes = {
+  activePlayer: PropTypes.number.isRequired,
   edges: PropTypes.array.isRequired,
   makeMove: PropTypes.func.isRequired,
   outer: PropTypes.bool,
-  taken: PropTypes.bool
+  takenBy: PropTypes.number.isRequired
 }
 
 export default Box

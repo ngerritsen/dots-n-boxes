@@ -11,12 +11,20 @@
     cursor: pointer;
   }
 
-  &.is-taken {
-    background-color: $blue;
+  &.alt-active-player-1:hover {
+    background-color: lighten($orange, 20%);
   }
 
-  &.is-taken:hover {
-    cursor: default;;
+  &.is-taken-by-player-0,
+  &.is-taken-by-player-0:hover {
+    background-color: $blue;
+    cursor: default;
+  }
+
+  &.is-taken-by-player-1,
+  &.is-taken-by-player-1:hover {
+    background-color: $orange;
+    cursor: default;
   }
 
   &.alt-top,

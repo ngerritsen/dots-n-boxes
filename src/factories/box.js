@@ -1,24 +1,34 @@
 import { SIDES } from '../constants/sides'
+import { isSameLineSegment } from '../helpers/line-segments'
 import edge from './edge'
 
 export default function box (index, moves, boardWidth, boardHeight) {
   const location = calculateLocation(index, boardWidth, boardHeight)
   const outer = isOuter(location)
   const edges = SIDES.map(side => edge(location, side, moves))
-  const taken = isBoxTaken(edges)
+  const isTaken = isBoxTaken(edges)
+  const takenBy = isTaken ? boxIsTakenBy(edges, moves) : -1
 
   return {
     location,
     outer,
     edges,
-    taken
+    takenBy
   }
 }
 
-export function isBoxTaken (edges) {
-  return edges.reduce((isTaken, { taken }) => {
-    return taken ? isTaken : false
+function isBoxTaken (edges) {
+  return edges.reduce((isTaken, { takenBy }) => {
+    return isTaken ? takenBy !== -1 : isTaken
   }, true)
+}
+
+function boxIsTakenBy (edges, moves) {
+  return moves.reduce((takenBy, move) => {
+    const matchingEdge = edges.find(e => isSameLineSegment(e, move))
+
+    return matchingEdge ? matchingEdge.takenBy : takenBy
+  }, -1)
 }
 
 function calculateLocation (index, width, height) {

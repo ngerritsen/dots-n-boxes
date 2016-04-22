@@ -8,6 +8,7 @@ function mapStateToProps (state) {
   const { width, height, moves } = state
   return {
     board: board(width, height, moves),
+    activePlayer: moves.length % 2,
     width
   }
 }
