@@ -3,7 +3,7 @@ import { calculateScore } from '../helpers/score'
 
 const initialScore = { scorePlayer0: 0, scorePlayer1: 0 }
 
-export function calculateGameState (state, move = 0, previousPlayer = 0, previousScore = initialScore) {
+export function calculateGameState (state, move = 0, previousPlayer = -1, previousScore = initialScore) {
   const { width, height, moves } = state
   const movesToCalculate = moves.slice(0, move)
   const board = createBoard(width, height, movesToCalculate)
@@ -11,13 +11,7 @@ export function calculateGameState (state, move = 0, previousPlayer = 0, previou
   const { scorePlayer0, scorePlayer1 } = score
   const activePlayer = determineNextPlayer(previousPlayer, previousScore, score)
 
-  const gameState = {
-    activePlayer,
-    board,
-    width,
-    scorePlayer0,
-    scorePlayer1
-  }
+  const gameState = { activePlayer, board, width, scorePlayer0, scorePlayer1 }
 
   if (moves.length === move) {
     return gameState

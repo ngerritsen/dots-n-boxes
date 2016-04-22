@@ -10,7 +10,7 @@ const Edge = ({ activePlayer, lineEnd, lineStart, makeMove, side, takenBy }) => 
       ` alt-${side}` +
       ` alt-active-player-${activePlayer}`
     }
-    onClick={takenBy === -1 && (() => makeMove(1, lineStart, lineEnd))}
+    onClick={takenBy === -1 && (() => makeMove(activePlayer, lineStart, lineEnd))}
   >
   </div>
 )

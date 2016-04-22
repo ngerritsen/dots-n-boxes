@@ -13,12 +13,12 @@ export default function edge(location, side, moves) {
 }
 
 function edgeIsTakenBy (lineStart, lineEnd, moves) {
-  return moves.reduce((isTaken, { lineStart: moveLineStart, lineEnd: moveLineEnd }, i) => {
+  return moves.reduce((isTaken, { lineStart: moveLineStart, lineEnd: moveLineEnd, player }) => {
     if (isSameLineSegment(
       { lineStart, lineEnd },
       { lineStart: moveLineStart, lineEnd: moveLineEnd }
     )) {
-      return i % 2
+      return player
     }
 
     return isTaken
