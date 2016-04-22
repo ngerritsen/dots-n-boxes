@@ -16,6 +16,8 @@ Game.propTypes = {
   activePlayer: PropTypes.number.isRequired,
   board: PropTypes.array.isRequired,
   makeMove: PropTypes.func.isRequired,
+  scorePlayer0: PropTypes.number.isRequired,
+  scorePlayer1: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired
 }
 
