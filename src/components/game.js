@@ -7,8 +7,8 @@ import Score from './score'
 const Game = ({ activePlayer, board, makeMove, width, scorePlayer0, scorePlayer1 }) => (
   <div className="container">
     <h1 className="title">Boxes</h1>
+    <Score activePlayer={activePlayer} scorePlayer0={scorePlayer0} scorePlayer1={scorePlayer1}/>
     <Board activePlayer={activePlayer} board={board} makeMove={makeMove} width={width}/>
-    <Score scorePlayer0={scorePlayer0} scorePlayer1={scorePlayer1}/>
   </div>
 )
 
