@@ -1,6 +1,8 @@
 import { MAKE_MOVE } from '../constants/action-types'
 
 const initialState = {
+  width: 4,
+  height: 4,
   moves: []
 }
 

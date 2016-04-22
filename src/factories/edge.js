@@ -1,17 +1,31 @@
-export function calculateLineSegment (location, side) {
+import { TOP, BOTTOM, LEFT, RIGHT } from '../constants/sides'
+
+export default function edge(location, side, moves) {
+  const { lineStart, lineEnd } = calculateLineSegment(location, side)
+  const taken = edgeIsTaken(lineStart, lineEnd, moves)
+
+  return {
+    lineStart,
+    lineEnd,
+    taken,
+    side
+  }
+}
+
+function calculateLineSegment (location, side) {
   switch (side) {
-    case 'top':
+    case TOP:
       return lineSegment(location, convertToTopRight(location))
-    case 'right':
+    case RIGHT:
       return lineSegment(convertToTopRight(location), convertToBottomRight(location))
-    case 'bottom':
+    case BOTTOM:
       return lineSegment(convertToBottomLeft(location), convertToBottomRight(location))
-    case 'left':
+    case LEFT:
       return lineSegment(location, convertToBottomLeft(location))
   }
 }
 
-export function edgeIsTaken (lineStart, lineEnd, moves) {
+function edgeIsTaken (lineStart, lineEnd, moves) {
   return moves.reduce((isTaken, { lineStart: moveLineStart, lineEnd: moveLineEnd }) => {
     if (
       moveLineStart[0] === lineStart[0] &&
@@ -34,16 +48,16 @@ function lineSegment (lineStart, lineEnd) {
 }
 
 function convertToTopRight (location) {
-  const [ x, y ] = location
-  return [ x + 1, y ]
+  const [x, y] = location
+  return [x + 1, y]
 }
 
 function convertToBottomRight (location) {
-  const [ x, y ] = location
-  return [ x + 1, y + 1 ]
+  const [x, y] = location
+  return [x + 1, y + 1]
 }
 
 function convertToBottomLeft (location) {
-  const [ x, y ] = location
-  return [ x, y + 1 ]
+  const [x, y] = location
+  return [x, y + 1]
 }

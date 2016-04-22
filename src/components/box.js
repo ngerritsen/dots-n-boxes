@@ -1,57 +1,34 @@
 import React, { PropTypes } from 'react'
 
 import Edge from './edge'
-import { calculateLineSegment, edgeIsTaken } from '../helpers/line'
-import { isCellTaken } from '../helpers/cell'
 
 import '../styles/box.scss'
 
-const sides = [ 'bottom', 'right' ]
-const outerSides = [ 'top', 'left', ...sides ]
-
-const Box = ({ makeMove, moves, outer, location }) => {
-  const usedSides = outer ? outerSides : sides
-  const edgeData = usedSides.map(side => {
-    const { lineStart, lineEnd } = calculateLineSegment(location, side)
-    const taken = edgeIsTaken(lineStart, lineEnd, moves)
-
-    return {
-      lineStart,
-      lineEnd,
-      taken,
-      side
-    }
-  })
-
-  return (
-    <div className="box">
-      {
-        edgeData.map(({ lineStart, lineEnd, taken, side }) => (
+const Box = ({ makeMove, edges, outer, taken }) => (
+  <div className="box">
+    {
+      edges
+        .filter(({ side }) => outer || (side !== 'top' && side !== 'left'))
+        .map(({ lineStart, lineEnd, taken: edgeTaken, side }) => (
           <Edge
             key={side}
-            location={location}
             lineStart={lineStart}
             lineEnd={lineEnd}
             makeMove={makeMove}
-            taken={taken}
+            taken={edgeTaken}
             side={side}
           />
         ))
-      }
-
-      {
-        isCellTaken(edgeData) &&
-        <div className="box--fill"></div>
-      }
-    </div>
-  )
-}
+    }
+    {taken && <div className="box--fill"></div>}
+  </div>
+)
 
 Box.propTypes = {
+  edges: PropTypes.array.isRequired,
   makeMove: PropTypes.func.isRequired,
-  moves: PropTypes.array.isRequired,
   outer: PropTypes.bool,
-  location: PropTypes.array.isRequired
+  taken: PropTypes.bool
 }
 
 export default Box

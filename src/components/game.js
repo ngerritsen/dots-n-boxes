@@ -1,25 +1,21 @@
 import React, { PropTypes } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
-import { makeMove } from '../actions/game'
+import connectGame from '../connectors/game'
 import Board from './board'
 import Score from './score'
 
-const Game = props => (
+const Game = ({ board, makeMove, width }) => (
   <div className="container">
-    <h1 className="title">Dots 'n boxes</h1>
-    <Board width={4} height={4} {...props}/>
+    <h1 className="title">Boxes</h1>
+    <Board board={board} makeMove={makeMove} width={width}/>
     <Score/>
   </div>
 )
 
-function mapStateToProps (state) {
-  return state
+Game.propTypes = {
+  board: PropTypes.array.isRequired,
+  makeMove: PropTypes.func.isRequired,
+  width: PropTypes.number.isRequired
 }
 
-function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ makeMove }, dispatch)
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Game)
+export default connectGame(Game)

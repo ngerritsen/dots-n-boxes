@@ -1,7 +1,7 @@
 {
-  "name": "dots-n-boxes",
+  "name": "boxes",
   "version": "1.0.0",
-  "description": "Dots and boxes game",
+  "description": "Boxes game",
   "main": "index.js",
   "scripts": {
     "build": "webpack",

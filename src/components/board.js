@@ -2,11 +2,10 @@ import React, { PropTypes } from 'react'
 
 import Box from './box'
 import { BOX_SIZE } from '../constants'
-import { generateGrid } from '../helpers/grid'
 
 import '../styles/board.scss'
 
-const Board = ({ makeMove, moves, width, height }) => (
+const Board = ({ board, makeMove, width }) => (
   <div
     className="board"
     style={{
@@ -14,25 +13,23 @@ const Board = ({ makeMove, moves, width, height }) => (
     }}
   >
     {
-      generateGrid(width, height)
-        .map(({ outer, location }, i) => (
-          <Box
-            key={i}
-            makeMove={makeMove}
-            moves={moves}
-            outer={outer}
-            location={location}
-          />
-        ))
+      board.map(({ edges, outer, location, taken }, i) => (
+        <Box
+          key={i}
+          makeMove={makeMove}
+          edges={edges}
+          outer={outer}
+          taken={taken}
+        />
+      ))
     }
   </div>
 )
 
 Board.propTypes = {
+  board: PropTypes.array.isRequired,
   makeMove: PropTypes.func.isRequired,
-  moves: PropTypes.array.isRequired,
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired
+  width: PropTypes.number.isRequired
 }
 
 export default Board
