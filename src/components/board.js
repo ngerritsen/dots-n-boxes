@@ -5,7 +5,7 @@ import { BOX_SIZE } from '../constants'
 
 import '../styles/board.scss'
 
-const Board = ({ activePlayer, board, makeMove, width }) => (
+const Board = ({ activePlayer, board, makeMove, playerWon, width }) => (
   <div
     className="board"
     style={{
@@ -20,6 +20,7 @@ const Board = ({ activePlayer, board, makeMove, width }) => (
           makeMove={makeMove}
           edges={edges}
           outer={outer}
+          playerWon={playerWon}
           takenBy={takenBy}
         />
       ))
@@ -31,6 +32,7 @@ Board.propTypes = {
   activePlayer: PropTypes.number.isRequired,
   board: PropTypes.array.isRequired,
   makeMove: PropTypes.func.isRequired,
+  playerWon: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired
 }
 

@@ -1,0 +1,22 @@
+@import 'variables';
+
+.button {
+  background-color: $red;
+  border: none;
+  border-radius: 6px;
+  color: $white;
+  font-weight: bold;
+  font-size: 1em;
+  padding: 0.8rem 1.2rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: lighten($red, 5%);
+    outline: none;
+  }
+}

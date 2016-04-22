@@ -27,6 +27,21 @@
     cursor: default;
   }
 
+  &.is-disabled:hover {
+    background-color: lighten($grey, 5%);
+    cursor: default;
+  }
+
+  &.is-disabled.is-taken-by-player-0:hover {
+    background-color: $blue;
+    cursor: default;
+  }
+
+  &.is-disabled.is-taken-by-player-1:hover {
+    background-color: $orange;
+    cursor: default;
+  }
+
   &.alt-top,
   &.alt-bottom {
     height: $edge-thickness;

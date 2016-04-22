@@ -4,11 +4,11 @@ import Edge from './edge'
 
 import '../styles/box.scss'
 
-const Box = ({ activePlayer, makeMove, edges, outer, takenBy }) => (
+const Box = ({ activePlayer, makeMove, edges, outer, playerWon, takenBy }) => (
   <div
     className={
       'box' +
-      (takenBy !== -1 ? ` is-taken-by-player-${takenBy}` : '')
+      (takenBy > -1 ? ` is-taken-by-player-${takenBy}` : '')
     }
   >
     {
@@ -22,6 +22,7 @@ const Box = ({ activePlayer, makeMove, edges, outer, takenBy }) => (
             lineEnd={lineEnd}
             makeMove={makeMove}
             takenBy={edgeTakenBy}
+            playerWon={playerWon}
             side={side}
           />
         ))
@@ -35,6 +36,7 @@ Box.propTypes = {
   edges: PropTypes.array.isRequired,
   makeMove: PropTypes.func.isRequired,
   outer: PropTypes.bool,
+  playerWon: PropTypes.number.isRequired,
   takenBy: PropTypes.number.isRequired
 }
 

@@ -1,4 +1,4 @@
-import { MAKE_MOVE } from '../constants/action-types'
+import { MAKE_MOVE, RESET } from '../constants/action-types'
 
 const initialState = {
   width: 4,
@@ -15,6 +15,12 @@ export default function gameReducer (state = initialState, action) {
           ...state.moves,
           action.move
         ]
+      }
+    }
+    case RESET: {
+      return {
+        ...state,
+        moves: []
       }
     }
     default: {

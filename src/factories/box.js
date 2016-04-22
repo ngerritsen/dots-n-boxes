@@ -19,7 +19,7 @@ export default function box (index, moves, boardWidth, boardHeight) {
 
 function isBoxTaken (edges) {
   return edges.reduce((isTaken, { takenBy }) => {
-    return isTaken ? takenBy !== -1 : isTaken
+    return isTaken ? takenBy > -1 : isTaken
   }, true)
 }
 
