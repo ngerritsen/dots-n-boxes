@@ -1,33 +1,21 @@
 import { default as createBoard } from '../factories/board'
 import { calculateScore } from '../helpers/score'
+import { determineActivePlayer } from '../helpers/players'
 
-const initialScore = { scorePlayer0: 0, scorePlayer1: 0 }
+export function calculateGameViewState ({ width, height, moves }) {
+  const lastMoveIndex = moves.length - 1
+  const isGameStart = lastMoveIndex === -1
+  const isFirstMove = lastMoveIndex === 0
 
-export function calculateGameState (state, move = 0, previousPlayer = -1, previousScore = initialScore) {
-  const { width, height, moves } = state
-  const movesToCalculate = moves.slice(0, move)
-  const board = createBoard(width, height, movesToCalculate)
+  const previousMoves = moves.slice(0, lastMoveIndex)
+  const previousBoard = createBoard(width, height, previousMoves)
+  const previousScore = calculateScore(previousBoard)
+  const previousPlayer = isGameStart || isFirstMove ? 0 : moves[lastMoveIndex].player
+
+  const board = createBoard(width, height, moves)
   const score = calculateScore(board)
+  const activePlayer = isGameStart ? 0 : determineActivePlayer(previousPlayer, previousScore, score)
   const { scorePlayer0, scorePlayer1 } = score
-  const activePlayer = determineNextPlayer(previousPlayer, previousScore, score)
 
-  const gameState = { activePlayer, board, width, scorePlayer0, scorePlayer1 }
-
-  if (moves.length === move) {
-    return gameState
-  }
-
-  return calculateGameState(state, move + 1, activePlayer, score)
-}
-
-function determineNextPlayer (previousPlayer, previousScore, currentScore) {
-  const previousPlayerPreviousScore = previousScore['scorePlayer' + previousPlayer]
-  const previousPlayerCurrentScore = currentScore['scorePlayer' + previousPlayer]
-  const previousPlayerScored = previousPlayerCurrentScore > previousPlayerPreviousScore
-
-  if (previousPlayerScored) {
-    return previousPlayer
-  }
-
-  return previousPlayer === 0 ? 1 : 0
+  return { activePlayer, board, width, scorePlayer0, scorePlayer1 }
 }

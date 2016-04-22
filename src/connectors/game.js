@@ -2,10 +2,10 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import { makeMove } from '../actions/game'
-import { calculateGameState } from '../helpers/game'
+import { calculateGameViewState } from '../helpers/game'
 
 function mapStateToProps (state) {
-  return calculateGameState(state)
+  return calculateGameViewState(state)
 }
 
 function mapDispatchToProps (dispatch) {
