@@ -2,14 +2,21 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import { makeMove } from '../actions/game'
-import board from '../factories/board'
+import { default as createBoard } from '../factories/board'
+import { calculateScore } from '../helpers/score'
 
 function mapStateToProps (state) {
   const { width, height, moves } = state
+  const activePlayer = moves.length % 2
+  const board = createBoard(width, height, moves)
+  const { scorePlayer0, scorePlayer1 } = calculateScore(board)
+
   return {
-    board: board(width, height, moves),
-    activePlayer: moves.length % 2,
-    width
+    activePlayer,
+    board,
+    width,
+    scorePlayer0,
+    scorePlayer1
   }
 }
 
