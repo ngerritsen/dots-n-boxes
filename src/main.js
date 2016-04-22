@@ -7,9 +7,20 @@ import store from './store'
 
 import './styles/global.scss'
 
-ReactDOM.render(
-  <Provider store={store}>
-    <Game/>
-  </Provider>,
-  document.getElementById('root')
-)
+function renderGame (GameComponent) {
+  ReactDOM.render(
+    <Provider store={store}>
+      <GameComponent/>
+    </Provider>,
+    document.getElementById('root')
+  )
+}
+
+renderGame(Game)
+
+if (module.hot) {
+  module.hot.accept('./components/game', () => {
+    const NextGame = require('./components/game')
+    renderGame(NextGame)
+  })
+}
