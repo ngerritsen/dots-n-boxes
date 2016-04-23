@@ -4,7 +4,7 @@
   "description": "Boxes game",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --config webpack.config.production.js",
     "hot": "webpack-dev-server --port 3000 --hot --inline"
   },
   "repository": {
