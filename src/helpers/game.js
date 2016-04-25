@@ -13,10 +13,11 @@ export function calculateGameViewState ({ width, height, moves }) {
   const previousPlayer = isGameStart || isFirstMove ? 0 : moves[lastMoveIndex].player
 
   const board = createBoard(width, height, moves)
+  const isClear = isGameStart
   const score = calculateScore(board)
   const activePlayer = isGameStart ? 0 : determineActivePlayer(previousPlayer, previousScore, score)
   const playerWon = determineWhoWon(width, height, score)
   const { scorePlayer0, scorePlayer1 } = score
 
-  return { activePlayer, board, width, scorePlayer0, scorePlayer1, playerWon }
+  return { activePlayer, board, isClear, width, scorePlayer0, scorePlayer1, playerWon }
 }

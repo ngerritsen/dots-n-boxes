@@ -4,30 +4,33 @@ import connectGame from '../connectors/game'
 import Board from './board'
 import Score from './score'
 import Reset from './reset'
+import Resize from './resize'
 
-const Game = ({ activePlayer, board, makeMove, width, reset, scorePlayer0, scorePlayer1, playerWon }) => (
+const Game = props => (
   <div className="container">
     <h1 className="title">Boxes</h1>
     <Score
-      activePlayer={activePlayer}
-      playerWon={playerWon}
-      scorePlayer0={scorePlayer0}
-      scorePlayer1={scorePlayer1}
+      activePlayer={props.activePlayer}
+      playerWon={props.playerWon}
+      scorePlayer0={props.scorePlayer0}
+      scorePlayer1={props.scorePlayer1}
     />
     <Board
-      activePlayer={activePlayer}
-      board={board}
-      makeMove={makeMove}
-      playerWon={playerWon}
-      width={width}
+      activePlayer={props.activePlayer}
+      board={props.board}
+      makeMove={props.makeMove}
+      playerWon={props.playerWon}
+      width={props.width}
     />
-    <Reset reset={reset}/>
+    <Reset reset={props.reset}/>
+    <Resize isDisabled={!props.isClear} resize={props.resize}/>
   </div>
 )
 
 Game.propTypes = {
   activePlayer: PropTypes.number.isRequired,
   board: PropTypes.array.isRequired,
+  isClear: PropTypes.bool.isRequired,
   makeMove: PropTypes.func.isRequired,
   playerWon: PropTypes.number.isRequired,
   reset: PropTypes.func.isRequired,

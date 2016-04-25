@@ -3,7 +3,13 @@ import React, { PropTypes } from 'react'
 import '../styles/button.scss'
 
 const Reset = ({ reset }) => (
-  <button type="button" className="button" onClick={reset}>Reset</button>
+  <button
+    type="button"
+    className="button alt-negative"
+    onClick={reset}
+  >
+    Reset
+  </button>
 )
 
 Reset.propTypes = {

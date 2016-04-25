@@ -1,4 +1,4 @@
-import { MAKE_MOVE, RESET } from '../constants/action-types'
+import { MAKE_MOVE, RESET, RESIZE } from '../constants/action-types'
 
 export function makeMove (player, lineStart, lineEnd) {
   return {
@@ -14,5 +14,13 @@ export function makeMove (player, lineStart, lineEnd) {
 export function reset () {
   return {
     type: RESET
+  }
+}
+
+export function resize (width, height) {
+  return {
+    type: RESIZE,
+    width,
+    height
   }
 }
