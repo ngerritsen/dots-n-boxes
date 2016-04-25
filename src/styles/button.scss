@@ -38,7 +38,7 @@
   }
 
   &.alt-default {
-    @include button-theme($blue)
+    @include button-theme(lighten($blue, 5%))
   }
 
   &.is-disabled {

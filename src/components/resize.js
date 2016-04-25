@@ -14,7 +14,7 @@ const Resize = ({ isDisabled, resize }) => (
           'button alt-default alt-grouped' +
           (isDisabled ? ' is-disabled' : '')
         }
-        onClick={() => resize(width, height)}
+        onClick={() => !isDisabled && resize(width, height)}
       >
         {width} x {height}
       </button>

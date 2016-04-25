@@ -22,8 +22,8 @@ const Game = props => (
       playerWon={props.playerWon}
       width={props.width}
     />
-    <Reset reset={props.reset}/>
     <Resize isDisabled={!props.isClear} resize={props.resize}/>
+    <Reset isDisabled={props.isClear} reset={props.reset}/>
   </div>
 )
 
