@@ -12,6 +12,7 @@ body {
   font-family: 'Open sans', Helvetica, Arial, sans-serif;
   font-size: 1.6rem;
   text-align: center;
+  margin-top: 3rem;
 }
 
 .container {
@@ -19,5 +20,5 @@ body {
 }
 
 .title {
-  margin: 1rem 0 2.2rem;
+  display: none;
 }
