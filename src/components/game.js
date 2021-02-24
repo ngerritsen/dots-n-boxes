@@ -1,12 +1,13 @@
-import React, { PropTypes } from 'react'
+import React from "react";
+import PropTypes from "prop-types";
 
-import connectGame from '../connectors/game'
-import Board from './board'
-import Score from './score'
-import Reset from './reset'
-import Resize from './resize'
+import connectGame from "../connectors/game";
+import Board from "./board";
+import Score from "./score";
+import Reset from "./reset";
+import Resize from "./resize";
 
-const Game = props => (
+const Game = (props) => (
   <div className="container">
     <h1 className="title">Boxes</h1>
     <Score
@@ -22,10 +23,10 @@ const Game = props => (
       playerWon={props.playerWon}
       width={props.width}
     />
-    <Resize isDisabled={!props.isClear} resize={props.resize}/>
-    <Reset isDisabled={props.isClear} reset={props.reset}/>
+    <Resize isDisabled={!props.isClear} resize={props.resize} />
+    <Reset isDisabled={props.isClear} reset={props.reset} />
   </div>
-)
+);
 
 Game.propTypes = {
   activePlayer: PropTypes.number.isRequired,
@@ -34,9 +35,10 @@ Game.propTypes = {
   makeMove: PropTypes.func.isRequired,
   playerWon: PropTypes.number.isRequired,
   reset: PropTypes.func.isRequired,
+  resize: PropTypes.func.isRequired,
   scorePlayer0: PropTypes.number.isRequired,
   scorePlayer1: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired
-}
+  width: PropTypes.number.isRequired,
+};
 
-export default connectGame(Game)
+export default connectGame(Game);

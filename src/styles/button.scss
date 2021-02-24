@@ -1,5 +1,3 @@
-@import 'variables';
-
 @mixin button-theme($color) {
   background-color: $color;
 
@@ -34,11 +32,11 @@
   }
 
   &.alt-negative {
-    @include button-theme($red)
+    @include button-theme($red);
   }
 
   &.alt-default {
-    @include button-theme(lighten($blue, 5%))
+    @include button-theme(lighten($blue, 5%));
   }
 
   &.is-disabled {

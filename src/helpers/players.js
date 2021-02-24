@@ -1,22 +1,26 @@
-export function determineActivePlayer (previousPlayer, previousScore, currentScore) {
-  console.log(previousPlayer)
-  console.log(previousScore)
-  console.log(currentScore)
-  const previousPlayerPreviousScore = previousScore['scorePlayer' + previousPlayer]
-  const previousPlayerCurrentScore = currentScore['scorePlayer' + previousPlayer]
-  const previousPlayerScored = previousPlayerCurrentScore > previousPlayerPreviousScore
+export function determineActivePlayer(
+  previousPlayer,
+  previousScore,
+  currentScore
+) {
+  const previousPlayerPreviousScore =
+    previousScore["scorePlayer" + previousPlayer];
+  const previousPlayerCurrentScore =
+    currentScore["scorePlayer" + previousPlayer];
+  const previousPlayerScored =
+    previousPlayerCurrentScore > previousPlayerPreviousScore;
 
   if (previousPlayerScored) {
-    return previousPlayer
+    return previousPlayer;
   }
 
-  return getNextPlayer(previousPlayer, 2)
+  return getNextPlayer(previousPlayer, 2);
 }
 
-function getNextPlayer (previousPlayer, playerCount) {
+function getNextPlayer(previousPlayer, playerCount) {
   if (previousPlayer + 1 === playerCount) {
-    return 0
+    return 0;
   }
 
-  return previousPlayer + 1
+  return previousPlayer + 1;
 }

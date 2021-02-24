@@ -1,5 +1,3 @@
-@import 'variables';
-
 .score {
   font-size: 2rem;
   margin-bottom: 3rem;
@@ -13,7 +11,7 @@
   &:before {
     border-radius: 4px;
     display: inline-block;
-    content: '';
+    content: "";
     height: 1.6rem;
     width: 1.6rem;
     margin-right: 1rem;

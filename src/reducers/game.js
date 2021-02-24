@@ -1,38 +1,35 @@
-import { MAKE_MOVE, RESET, RESIZE } from '../constants/action-types'
+import { MAKE_MOVE, RESET, RESIZE } from "../constants/action-types";
 
 const initialState = {
   width: 4,
   height: 4,
-  moves: []
-}
+  moves: [],
+};
 
-export default function gameReducer (state = initialState, action) {
+export default function gameReducer(state = initialState, action) {
   switch (action.type) {
     case MAKE_MOVE: {
       return {
         ...state,
-        moves: [
-          ...state.moves,
-          action.move
-        ]
-      }
+        moves: [...state.moves, action.move],
+      };
     }
     case RESET: {
       return {
         ...state,
-        moves: []
-      }
+        moves: [],
+      };
     }
     case RESIZE: {
-      const { width, height } = action
+      const { width, height } = action;
       return {
         ...state,
         width,
-        height
-      }
+        height,
+      };
     }
     default: {
-      return state
+      return state;
     }
   }
 }

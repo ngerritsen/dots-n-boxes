@@ -1,12 +1,9 @@
-import { applyMiddleware, createStore } from 'redux'
-import createLogger from 'redux-logger';
+import { applyMiddleware, createStore } from "redux";
+import { createLogger } from "redux-logger";
 
-import gameReducer from './reducers/game'
+import gameReducer from "./reducers/game";
 
-const logger = createLogger()
-const store = createStore(
-  gameReducer,
-  applyMiddleware(logger)
-);
+const logger = createLogger();
+const store = createStore(gameReducer, applyMiddleware(logger));
 
-export default store
+export default store;
