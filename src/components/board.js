@@ -1,36 +1,26 @@
 import React from "react";
-import PropTypes from "prop-types";
-
-import Box from "./box";
+import Box from "./Box";
 import { BOX_SIZE } from "../constants";
+import { useRecoilValue } from "recoil";
+import { game } from "../selectors";
+import { board as boardAtom } from "../atoms";
 
-const Board = ({ activePlayer, board, makeMove, playerWon, width }) => (
-  <div
-    className="board"
-    style={{
-      width: String(width * BOX_SIZE) + "px",
-    }}
-  >
-    {board.map(({ edges, outer, takenBy }, i) => (
-      <Box
-        key={i}
-        activePlayer={activePlayer}
-        makeMove={makeMove}
-        edges={edges}
-        outer={outer}
-        playerWon={playerWon}
-        takenBy={takenBy}
-      />
-    ))}
-  </div>
-);
+const Board = () => {
+  const { board } = useRecoilValue(game);
+  const { width } = useRecoilValue(boardAtom);
 
-Board.propTypes = {
-  activePlayer: PropTypes.number.isRequired,
-  board: PropTypes.array.isRequired,
-  makeMove: PropTypes.func.isRequired,
-  playerWon: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired,
+  return (
+    <div
+      className="board"
+      style={{
+        width: String(width * BOX_SIZE) + "px",
+      }}
+    >
+      {board.map(({ edges, outer, takenBy }, i) => (
+        <Box key={i} edges={edges} outer={outer} takenBy={takenBy} />
+      ))}
+    </div>
+  );
 };
 
 export default Board;

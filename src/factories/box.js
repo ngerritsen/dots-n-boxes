@@ -1,5 +1,5 @@
 import { SIDES } from "../constants/sides";
-import { isSameLineSegment } from "../helpers/line-segments";
+import { isSameLineSegment } from "../helpers/lineSegments";
 import edge from "./edge";
 
 export default function box(index, moves, boardWidth, boardHeight) {

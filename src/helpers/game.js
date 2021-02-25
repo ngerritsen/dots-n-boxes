@@ -1,4 +1,4 @@
-import { default as createBoard } from "../factories/board";
+import createBoard from "../factories/board";
 import { calculateScore, determineWhoWon } from "../helpers/score";
 import { determineActivePlayer } from "../helpers/players";
 
