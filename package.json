@@ -4,8 +4,9 @@
   "description": "Boxes game",
   "main": "index.js",
   "scripts": {
-    "build": "pwd; ls .; ls src; ls src/components; npx parcel build ./src/index.html",
-    "serve": "npx parcel ./src/index.html",
+    "build": "npx parcel build ./src/index.html",
+    "serve": "concurrently 'npx parcel watch ./src/index.html' 'nodemon ./server'",
+    "start": "node ./server",
     "lint": "concurrently 'eslint .' 'prettier --check .'",
     "fix": "eslint . --fix; prettier --write ."
   },
@@ -30,11 +31,13 @@
     "eslint": "^7.20.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-react": "^7.22.0",
+    "nodemon": "^2.0.7",
     "parcel-bundler": "^1.12.4",
     "prettier": "^2.2.1",
     "sass": "^1.32.8"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "polished": "^4.1.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",

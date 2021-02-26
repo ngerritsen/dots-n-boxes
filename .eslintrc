@@ -13,5 +13,14 @@
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 2020
-  }
+  },
+  "overrides": [
+    {
+      "files": ["server/**/*.js"],
+      "env": {
+        "browser": false,
+        "node": true
+      }
+    }
+  ]
 }
