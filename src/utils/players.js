@@ -1,12 +1,10 @@
 export function determineActivePlayer(
   previousPlayer,
-  previousScore,
-  currentScore
+  previousScores,
+  currentScores
 ) {
-  const previousPlayerPreviousScore =
-    previousScore["scorePlayer" + previousPlayer];
-  const previousPlayerCurrentScore =
-    currentScore["scorePlayer" + previousPlayer];
+  const previousPlayerPreviousScore = previousScores[previousPlayer];
+  const previousPlayerCurrentScore = currentScores[previousPlayer];
   const previousPlayerScored =
     previousPlayerCurrentScore > previousPlayerPreviousScore;
 

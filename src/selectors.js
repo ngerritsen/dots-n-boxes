@@ -1,6 +1,6 @@
 import { selector } from "recoil";
 import { moves, board } from "./atoms";
-import { calculateGameViewState } from "./helpers/game";
+import { calculateGameViewState } from "./utils/game";
 
 export const game = selector({
   key: "game",

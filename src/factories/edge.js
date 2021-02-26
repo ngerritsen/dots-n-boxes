@@ -1,7 +1,4 @@
-import {
-  isSameLineSegment,
-  calculateLineSegment,
-} from "../helpers/lineSegments";
+import { isSameLineSegment, calculateLineSegment } from "../utils/lineSegments";
 
 export default function edge(location, side, moves) {
   const { lineStart, lineEnd } = calculateLineSegment(location, side);

@@ -1,18 +1,27 @@
 import React from "react";
 
-import Board from "./board";
-import Score from "./score";
-import Reset from "./reset";
-import Resize from "./resize";
+import Board from "./Board";
+import Score from "./Score";
+import Reset from "./Reset";
+import Resize from "./Resize";
+import Section from "./Shared/Section";
+import Container from "./Shared/Container";
 
 const Game = () => (
-  <div className="container">
-    <h1 className="title">Boxes</h1>
-    <Score />
-    <Board />
-    <Resize />
-    <Reset />
-  </div>
+  <Container>
+    <Section>
+      <Score />
+    </Section>
+    <Section size={10}>
+      <Board />
+    </Section>
+    <Section size={10}>
+      <Resize />
+    </Section>
+    <Section size={4}>
+      <Reset />
+    </Section>
+  </Container>
 );
 
 export default Game;

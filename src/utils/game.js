@@ -1,6 +1,6 @@
 import createBoard from "../factories/board";
-import { calculateScore, determineWhoWon } from "../helpers/score";
-import { determineActivePlayer } from "../helpers/players";
+import { calculateScores, determineWinner } from "./score";
+import { determineActivePlayer } from "./players";
 
 export function calculateGameViewState({ width, height, moves }) {
   const lastMoveIndex = moves.length - 1;
@@ -9,26 +9,24 @@ export function calculateGameViewState({ width, height, moves }) {
 
   const previousMoves = moves.slice(0, lastMoveIndex);
   const previousBoard = createBoard(width, height, previousMoves);
-  const previousScore = calculateScore(previousBoard);
+  const previousScores = calculateScores(previousBoard);
   const previousPlayer =
     isGameStart || isFirstMove ? 0 : moves[lastMoveIndex].player;
 
   const board = createBoard(width, height, moves);
   const isClear = isGameStart;
-  const score = calculateScore(board);
+  const scores = calculateScores(board);
   const activePlayer = isGameStart
     ? 0
-    : determineActivePlayer(previousPlayer, previousScore, score);
-  const playerWon = determineWhoWon(width, height, score);
-  const { scorePlayer0, scorePlayer1 } = score;
+    : determineActivePlayer(previousPlayer, previousScores, scores);
+  const playerWon = determineWinner(width, height, scores);
 
   return {
     activePlayer,
     board,
     isClear,
     width,
-    scorePlayer0,
-    scorePlayer1,
+    scores,
     playerWon,
   };
 }

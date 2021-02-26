@@ -1,13 +1,14 @@
 import React from "react";
+import styled from "styled-components";
 import PropTypes from "prop-types";
 import Edge from "./Edge";
+import { getPlayerColor, getSize } from "../utils/theme";
 import { LEFT, TOP } from "../constants/sides";
+import { lighten, math, size } from "polished";
 
 const Box = ({ outer, edges, takenBy }) => {
   return (
-    <div
-      className={"box" + (takenBy > -1 ? ` is-taken-by-player-${takenBy}` : "")}
-    >
+    <StyledBox>
       {edges
         .filter(({ side }) => outer || (side !== TOP && side !== LEFT))
         .map(({ lineStart, lineEnd, takenBy: edgeTakenBy, side }) => (
@@ -19,8 +20,8 @@ const Box = ({ outer, edges, takenBy }) => {
             side={side}
           />
         ))}
-      <div className="box--fill"></div>
-    </div>
+      {takenBy > -1 && <BoxFill takenBy={takenBy} />}
+    </StyledBox>
   );
 };
 
@@ -35,5 +36,23 @@ Box.propTypes = {
   ).isRequired,
   takenBy: PropTypes.number.isRequired,
 };
+
+const StyledBox = styled.div`
+  display: inline-block;
+  pointer-events: none;
+  position: relative;
+  width: ${getSize("box")};
+  height: ${getSize("box")};
+`;
+
+const BoxFill = styled.div`
+  border-radius: 4px;
+  position: absolute;
+  top: ${getSize(3)};
+  left: ${getSize(3)};
+  ${(props) => size(math(`${getSize("box")(props)} - ${getSize(6)(props)}`))};
+  background-color: ${(props) =>
+    lighten(0.2, getPlayerColor(props.takenBy)(props))};
+`;
 
 export default Box;

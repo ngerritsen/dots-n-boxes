@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import storeSelf from "./utils/storeSelf";
 
 export const moves = atom({
   key: "moves",
@@ -11,4 +12,5 @@ export const board = atom({
     width: 4,
     height: 4,
   },
+  effects_UNSTABLE: [storeSelf("board")],
 });
