@@ -4,7 +4,7 @@
   "description": "Boxes game",
   "main": "index.js",
   "scripts": {
-    "build": "npx parcel build ./src/index.html",
+    "build": "pwd; ls .; ls src; ls src/components; npx parcel build ./src/index.html",
     "serve": "npx parcel ./src/index.html",
     "lint": "concurrently 'eslint .' 'prettier --check .'",
     "fix": "eslint . --fix; prettier --write ."
