@@ -1,15 +1,15 @@
 import React from "react";
-import { useSetRecoilState, useRecoilValue } from "recoil";
-import { game } from "../selectors";
-import { board } from "../atoms";
+import { getGame } from "../selectors";
+import { useDispatch, useSelector } from "react-redux";
 
 import sizes from "../constants/sizes.js";
 import Button from "./Shared/Button";
 import ButtonGroup from "./Shared/ButtonGroup";
+import { setBoard } from "../slices/board";
 
 const Resize = () => {
-  const { isClear } = useRecoilValue(game);
-  const setBoardSize = useSetRecoilState(board);
+  const { isClear } = useSelector(getGame);
+  const dispatch = useDispatch();
 
   return (
     <ButtonGroup>
@@ -19,7 +19,9 @@ const Resize = () => {
           type="button"
           color="primary"
           disabled={!isClear}
-          onClick={isClear ? () => setBoardSize({ width, height }) : undefined}
+          onClick={
+            isClear ? () => dispatch(setBoard({ width, height })) : undefined
+          }
         >
           {width} x {height}
         </Button>

@@ -1,19 +1,20 @@
 import React from "react";
-import { useRecoilState, useResetRecoilState } from "recoil";
-import { game } from "../selectors";
-import { moves } from "../atoms";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getGame } from "../selectors";
+import { resetMoves } from "../slices/moves";
 import Button from "./Shared/Button";
 
 const Reset = () => {
-  const { isClear } = useRecoilState(game);
-  const resetMoves = useResetRecoilState(moves);
+  const { isClear } = useSelector(getGame);
+  const dispatch = useDispatch();
 
   return (
     <Button
       type="button"
       color="danger"
       disabled={isClear}
-      onClick={isClear ? undefined : resetMoves}
+      onClick={isClear ? undefined : () => dispatch(resetMoves())}
     >
       Reset
     </Button>

@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { useRecoilValue } from "recoil";
-import { game } from "../selectors";
+import { useSelector } from "react-redux";
+
+import { getGame } from "../selectors";
 import { getColor, getPlayerColor, getSize } from "../utils/theme";
 
 const Score = () => {
-  const { activePlayer, playerWon, scores } = useRecoilValue(game);
+  const { activePlayer, playerWon, scores } = useSelector(getGame);
 
   return (
     <>

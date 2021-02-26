@@ -2,14 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { lighten } from "polished";
+import { useDispatch, useSelector } from "react-redux";
+
 import { getPlayerColor, getSize, getColor } from "../utils/theme";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { game } from "../selectors";
+import { getGame } from "../selectors";
 import { BOTTOM, LEFT, RIGHT, TOP } from "../constants/sides";
+import { makeMove } from "../slices/moves";
 
 const Edge = ({ lineEnd, lineStart, side, takenBy }) => {
-  const { activePlayer, playerWon } = useRecoilValue(game);
-  const makeMove = useSetRecoilState(game);
+  const { activePlayer, playerWon } = useSelector(getGame);
+  const dispatch = useDispatch();
 
   return (
     <StyledEdge
@@ -19,7 +21,8 @@ const Edge = ({ lineEnd, lineStart, side, takenBy }) => {
       disabled={playerWon !== -1}
       onClick={
         takenBy < 0 && playerWon < 0
-          ? () => makeMove({ player: activePlayer, lineStart, lineEnd })
+          ? () =>
+              dispatch(makeMove({ player: activePlayer, lineStart, lineEnd }))
           : undefined
       }
     />

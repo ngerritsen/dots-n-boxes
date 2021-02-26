@@ -1,16 +1,15 @@
 import React from "react";
-import Box from "./Box";
+import { useSelector } from "react-redux";
 
-import { useRecoilValue } from "recoil";
-import { game } from "../selectors";
-import { board as boardAtom } from "../atoms";
+import Box from "./Box";
 import styled from "styled-components";
 import { math } from "polished";
 import { getSize } from "../utils/theme";
+import { getBoard, getGame } from "../selectors";
 
 const Board = () => {
-  const { board } = useRecoilValue(game);
-  const { width } = useRecoilValue(boardAtom);
+  const { board } = useSelector(getGame);
+  const { width } = useSelector(getBoard);
 
   return (
     <StyledBoard width={width}>

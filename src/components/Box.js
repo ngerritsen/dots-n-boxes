@@ -6,24 +6,22 @@ import { getPlayerColor, getSize } from "../utils/theme";
 import { LEFT, TOP } from "../constants/sides";
 import { lighten, math, size } from "polished";
 
-const Box = ({ outer, edges, takenBy }) => {
-  return (
-    <StyledBox>
-      {edges
-        .filter(({ side }) => outer || (side !== TOP && side !== LEFT))
-        .map(({ lineStart, lineEnd, takenBy: edgeTakenBy, side }) => (
-          <Edge
-            key={side}
-            lineStart={lineStart}
-            lineEnd={lineEnd}
-            takenBy={edgeTakenBy}
-            side={side}
-          />
-        ))}
-      {takenBy > -1 && <BoxFill takenBy={takenBy} />}
-    </StyledBox>
-  );
-};
+const Box = ({ outer, edges, takenBy }) => (
+  <StyledBox>
+    {edges
+      .filter(({ side }) => outer || (side !== TOP && side !== LEFT))
+      .map(({ lineStart, lineEnd, takenBy: edgeTakenBy, side }) => (
+        <Edge
+          key={side}
+          lineStart={lineStart}
+          lineEnd={lineEnd}
+          takenBy={edgeTakenBy}
+          side={side}
+        />
+      ))}
+    {takenBy > -1 && <BoxFill takenBy={takenBy} />}
+  </StyledBox>
+);
 
 Box.propTypes = {
   outer: PropTypes.bool,
