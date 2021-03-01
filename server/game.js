@@ -44,7 +44,9 @@ const createGame = () => {
     boardSize = size;
   };
 
-  const resetMoves = () => [];
+  const resetMoves = () => {
+    moves = [];
+  };
   const getMoves = () => moves;
   const makeMove = (move) => {
     const gameState = calculateGameState(moves, boardSize);
