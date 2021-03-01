@@ -17,7 +17,7 @@ const createGame = (id) => {
   const join = (token) => {
     const player = players.indexOf(token);
 
-    if (player > -1) {
+    if (hasPlayer(token)) {
       return player;
     }
 
@@ -30,7 +30,7 @@ const createGame = (id) => {
 
   const getBoardSize = () => boardSize;
   const setBoardSize = (token, size) => {
-    invariant(hasPlayer(), "Player is not in this game.");
+    invariant(hasPlayer(token), "Player is not in this game.");
     invariant(boardSizes.includes(size), "Invalid board size");
     invariant(moves.length === 0, "Board is not empty.");
 
@@ -46,7 +46,7 @@ const createGame = (id) => {
   const makeMove = (token, move) => {
     const player = players.indexOf(token);
 
-    invariant(player > -1, "Player is not in this game.");
+    invariant(hasPlayer(token), "Player is not in this game.");
     invariant(player === move.player, "Cannot make a move for another player.");
 
     const gameState = calculateGameState(moves, boardSize);
