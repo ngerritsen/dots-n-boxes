@@ -1,25 +1,27 @@
 const { nanoid } = require("nanoid");
 const createGame = require("./game");
+const { invariant } = require("./utils");
 
 let games = {};
 
-const newGame = () => {
+const create = () => {
   const id = nanoid(8);
 
-  games = { ...games, [id]: createGame() };
+  games = { ...games, [id]: createGame(id) };
 
   return id;
 };
 
-const getGame = (id) => {
-  if (!games[id]) {
-    throw new Error("Game does not exist.");
-  }
+const get = (id) => {
+  invariant(games[id], "Game does not exist.");
 
   return games[id];
 };
 
+const getAll = () => Object.values(games);
+
 module.exports = {
-  newGame,
-  getGame,
+  create,
+  get,
+  getAll,
 };

@@ -15,7 +15,6 @@ export default createGlobalStyle`
   body {
     font-family: Arial, sans-serif;
     font-size: 1.6rem;
-    text-align: center;
     margin: 0;
     padding: 0;
     color: ${getColor("fg")};

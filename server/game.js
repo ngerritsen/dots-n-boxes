@@ -1,75 +1,75 @@
 const boardSizes = require("../shared/boardSizes");
 const { calculateGameState } = require("../shared/utils/game");
-const createPlayer = require("./player");
+const { invariant } = require("./utils");
 
 const maxPlayers = 2;
 
-const createGame = () => {
+const createGame = (id) => {
   let players = [];
   let moves = [];
   let boardSize = 4;
 
-  const isFull = () => players.length >= maxPlayers;
+  const getId = () => id;
+
+  const hasPlayer = (token) => players.indexOf(token) > -1;
+  const getPlayers = () => players;
 
   const join = (token) => {
-    if (token) {
-      const player = players.find((p) => p.getToken() === token);
+    const player = players.indexOf(token);
 
-      if (player) {
-        return player;
-      }
+    if (player > -1) {
+      return player;
     }
 
-    if (isFull()) {
-      throw new Error("Game is full.");
-    }
+    invariant(players.length < maxPlayers, "Game is full.");
 
-    const player = createPlayer(players.length);
+    players = [...players, token];
 
-    players = [...players, player];
-
-    return player;
+    return players.length - 1;
   };
 
   const getBoardSize = () => boardSize;
-  const setBoardSize = (size) => {
-    if (!boardSizes.includes(size)) {
-      throw new Error("Invalid board size.");
-    }
-
-    if (moves.length > 0) {
-      throw new Error("Board is not empty.");
-    }
+  const setBoardSize = (token, size) => {
+    invariant(hasPlayer(), "Player is not in this game.");
+    invariant(boardSizes.includes(size), "Invalid board size");
+    invariant(moves.length === 0, "Board is not empty.");
 
     boardSize = size;
   };
 
-  const resetMoves = () => {
+  const resetMoves = (token) => {
+    invariant(players.indexOf(token) > -1, "Player is not in this game.");
+
     moves = [];
   };
   const getMoves = () => moves;
-  const makeMove = (move) => {
+  const makeMove = (token, move) => {
+    const player = players.indexOf(token);
+
+    invariant(player > -1, "Player is not in this game.");
+    invariant(player === move.player, "Cannot make a move for another player.");
+
     const gameState = calculateGameState(moves, boardSize);
 
-    if (gameState.playerWon > -1) {
-      throw new Error("A player already won.");
-    }
-
-    if (gameState.activePlayer !== move.player) {
-      throw new Error("It is not your turn.");
-    }
+    invariant(gameState.playerWon === -1, "A player already won.");
+    invariant(
+      gameState.activePlayer === move.player,
+      "It is not this player's turn."
+    );
 
     moves = [...moves, move];
   };
 
   return {
-    isFull,
     join,
     makeMove,
     getMoves,
     resetMoves,
     getBoardSize,
     setBoardSize,
+    getId,
+    hasPlayer,
+    getPlayers,
   };
 };
 

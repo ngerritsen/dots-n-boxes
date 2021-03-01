@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 
 import { getPlayerColor, getSize, getColor } from "../utils/theme";
-import { getGameState, getPlayerId } from "../selectors";
+import { getGameState, getPlayer } from "../selectors";
 import sides from "../../shared/constants/sides";
 import { makeMove } from "../slices/game";
 
@@ -15,9 +15,9 @@ const { top, bottom, left, right } = sides;
 const Edge = ({ lineEnd, lineStart, side, takenBy }) => {
   const { gameId } = useParams();
   const { activePlayer, playerWon } = useSelector(getGameState);
-  const playerId = useSelector(getPlayerId);
+  const player = useSelector(getPlayer);
   const dispatch = useDispatch();
-  const myTurn = gameId === "local" || playerId === activePlayer;
+  const myTurn = gameId === "local" || player === activePlayer;
   const disabled = !myTurn || playerWon !== -1 || takenBy > -1;
 
   return (
@@ -28,7 +28,12 @@ const Edge = ({ lineEnd, lineStart, side, takenBy }) => {
       disabled={disabled}
       onClick={() =>
         !disabled &&
-        dispatch(makeMove({ player: activePlayer, lineStart, lineEnd }))
+        dispatch(
+          makeMove({
+            gameId,
+            move: { player: activePlayer, lineStart, lineEnd },
+          })
+        )
       }
     />
   );

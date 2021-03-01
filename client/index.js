@@ -2,8 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
-import { Switch, Route } from "react-router-dom";
-import { ConnectedRouter } from "connected-react-router";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
 
 import Notification from "./components/Notification";
 import Game from "./components/Game";
@@ -11,7 +10,6 @@ import GlobalStyle from "./components/GlobalStyle";
 import theme from "./theme";
 import store from "./store";
 import Start from "./components/Start";
-import history from "./history";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -19,7 +17,7 @@ ReactDOM.render(
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Notification />
-        <ConnectedRouter history={history}>
+        <BrowserRouter>
           <Switch>
             <Route path="/" exact>
               <Start />
@@ -28,7 +26,7 @@ ReactDOM.render(
               <Game />
             </Route>
           </Switch>
-        </ConnectedRouter>
+        </BrowserRouter>
       </ThemeProvider>
     </Provider>
   </React.StrictMode>,

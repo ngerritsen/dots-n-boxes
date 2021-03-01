@@ -7,9 +7,19 @@ const leaveAllGames = (socket) => {
     }
   }
 };
+const invariant = (condition, message) => {
+  if (!condition) {
+    throw new Error(message);
+  }
+};
+
+const getPlayers = (game, users) =>
+  game.getPlayers().map((token) => users.get(token) ? users.get(token).getName() : "");
 
 module.exports = {
   getGameRoomId,
   leaveAllGames,
   isGameRoom,
+  invariant,
+  getPlayers,
 };

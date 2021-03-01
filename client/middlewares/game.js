@@ -1,4 +1,3 @@
-import { push } from "connected-react-router";
 import socket from "../socket";
 import events from "../../shared/events";
 import {
@@ -8,79 +7,88 @@ import {
   makeMove,
   resetMoves,
   setBoardSize,
+  updatePlayers,
 } from "../slices/game";
 import { updateMoves } from "../slices/game";
 import { notify } from "../slices/notification";
-import * as tokens from "../storage/tokens";
-import { getGameId, isLocal } from "../selectors";
-import { createGameRoute } from "../utils/routes";
+import { getToken } from "../selectors";
 
-export default (store) => (next) => {
+export default ({ getState, dispatch }) => (next) => {
+  let history;
+
   socket.on(events.joinSucceeded, (data) => {
-    tokens.store(data.gameId, data.token);
-    store.dispatch(joinSucceeded(data));
-    store.dispatch(updateMoves(fromServer({ moves: data.moves })));
-    store.dispatch(setBoardSize(fromServer({ size: data.boardSize })));
-    store.dispatch(notify({ message: "Joined game", type: "success" }));
+    dispatch(joinSucceeded({ player: data.player }));
+    dispatch(updateMoves(fromServer({ moves: data.moves })));
+    dispatch(updatePlayers(fromServer({ players: data.players })));
+    dispatch(setBoardSize(fromServer({ size: data.boardSize })));
+    dispatch(notify({ message: "Joined game", type: "success" }));
   });
 
   socket.on(events.createSucceeded, (data) => {
-    store.dispatch(push(createGameRoute(data.gameId)));
+    if (history) {
+      history.push("/" + data.gameId);
+    }
   });
 
   socket.on(events.makeMoveSucceeded, (data) => {
-    store.dispatch(makeMove(fromServer(data.move)));
+    dispatch(makeMove(fromServer({ move: data.move })));
   });
 
   socket.on(events.resetMovesSucceeded, () => {
-    store.dispatch(resetMoves(fromServer()));
+    dispatch(resetMoves(fromServer()));
   });
 
   socket.on(events.setBoardSizeSucceeded, (data) => {
-    store.dispatch(setBoardSize(fromServer({ size: data.size })));
+    dispatch(setBoardSize(fromServer({ size: data.size })));
   });
 
-  handleFailedEvent(store, events.setBoardSizeFailed, "Set board size");
-  handleFailedEvent(store, events.makeMoveFailed, "Make move");
-  handleFailedEvent(store, events.createFailed, "Create game");
-  handleFailedEvent(store, events.joinFailed, "Join game");
-  handleFailedEvent(store, events.resetMovesFailed, "Reset moves");
+  socket.on(events.playersUpdated, (data) => {
+    dispatch(updatePlayers({ players: data.players }));
+  });
+
+  handleFailedEvent(dispatch, events.setBoardSizeFailed, "Set board size");
+  handleFailedEvent(dispatch, events.makeMoveFailed, "Make move");
+  handleFailedEvent(dispatch, events.createFailed, "Create game");
+  handleFailedEvent(dispatch, events.joinFailed, "Join game");
+  handleFailedEvent(dispatch, events.resetMovesFailed, "Reset moves");
 
   return (action) => {
-    if (action.type === String(join)) {
-      const gameId = getGameId(store.getState());
-
-      socket.emit(events.join, {
-        gameId,
-        token: tokens.get(gameId),
-      });
+    if (isServer(action) || isLocal(action)) {
+      return next(action);
     }
 
     if (action.type === String(create)) {
       socket.emit(events.create);
+      history = action.payload.history;
     }
 
-    if (isServer(action) || isLocal(store.getState())) {
-      return next(action);
+    if (action.type === String(join)) {
+      socket.emit(events.join, {
+        gameId: action.payload.gameId,
+        token: getToken(getState()),
+      });
     }
 
     if (action.type === String(makeMove)) {
       socket.emit(events.makeMove, {
-        gameId: getGameId(store.getState()),
-        move: action.payload,
+        gameId: action.payload.gameId,
+        move: action.payload.move,
+        token: getToken(getState()),
       });
     }
 
     if (action.type === String(resetMoves)) {
       socket.emit(events.resetMoves, {
-        gameId: getGameId(store.getState()),
+        gameId: action.payload.gameId,
+        token: getToken(getState()),
       });
     }
 
     if (action.type === String(setBoardSize)) {
       socket.emit(events.setBoardSize, {
+        gameId: action.payload.gameId,
         size: action.payload.size,
-        gameId: getGameId(store.getState()),
+        token: getToken(getState()),
       });
     }
 
@@ -88,12 +96,13 @@ export default (store) => (next) => {
   };
 };
 
-const handleFailedEvent = (store, event, prefix) => {
+const handleFailedEvent = (dispatch, event, prefix) => {
   socket.on(event, (data) => {
-    store.dispatch(
+    dispatch(
       notify({ message: prefix + " failed: " + data.message, type: "error" })
     );
   });
 };
 const isServer = (action) => action.payload && action.payload.server;
+const isLocal = (action) => action.payload && action.payload.gameId === "local";
 const fromServer = (payload) => ({ ...payload, server: true });

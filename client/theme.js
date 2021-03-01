@@ -1,3 +1,5 @@
+import { darken } from "polished";
+
 const BASE_SIZE = 0.4;
 const MAX_SIZE = 40;
 
@@ -11,10 +13,15 @@ export default {
     bg: "#fff",
     subtleBg: "#d1d8e0",
     neutral: "#4b6584",
+    dark: darken(0.3, "#4b6584"),
     primary: "#4b7bec",
     success: "#20bf6b",
     danger: "#eb3b5a",
     players: ["#45aaf2", "#fa8231"],
+  },
+  radii: {
+    rounded: "99rem",
+    default: sizes[3],
   },
   sizes: {
     ...sizes,

@@ -14,4 +14,11 @@ module.exports = {
   setBoardSize: "setBoardSize",
   setBoardSizeSucceeded: "setBoardSizeSucceeded",
   setBoardSizeFailed: "setBoardSizeFailed",
+  register: "register",
+  registerSucceeded: "registerSucceeded",
+  registerFailed: "registerFailed",
+  updateName: "updateName",
+  updateNameFailed: "updateNameFailed",
+  updateNameSucceeded: "updateNameSucceeded",
+  playersUpdated: "playersUpdated",
 };

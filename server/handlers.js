@@ -1,23 +1,69 @@
 const events = require("../shared/events");
 const games = require("./games");
-const { getGameRoomId, leaveAllGames } = require("./utils");
+const users = require("./users");
+const { getGameRoomId, leaveAllGames, getPlayers } = require("./utils");
 
 module.exports = {
+  [events.register]: (socket, event) => {
+    try {
+      const user = users.get(event.token);
+
+      if (!user) {
+        socket.emit(events.registerSucceeded, {
+          token: users.register(event.name),
+        });
+        return;
+      }
+
+      socket.emit(events.registerSucceeded, { token: user.getToken() });
+    } catch (err) {
+      socket.emit(events.registerFailed, { message: err.message });
+    }
+  },
+  [events.updateName]: (socket, event) => {
+    try {
+      const user = users.get(event.token);
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      user.setName(event.name);
+      
+      socket.emit(events.updateNameSucceeded);
+
+      games.getAll().forEach((game) => {
+        if (!game.hasPlayer(event.token)) {
+          return;
+        }
+
+        socket
+          .to(getGameRoomId(game.getId()))
+          .emit(events.playersUpdated, getPlayers(game, users));
+      });
+    } catch (err) {
+      socket.emit(events.updateNameFailed, { message: err.message });
+    }
+  },
   [events.join]: (socket, event) => {
     try {
-      const game = games.getGame(event.gameId);
+      const game = games.get(event.gameId);
       const player = game.join(event.token);
+      const players = getPlayers(game, users);
 
       leaveAllGames(socket);
       socket.join(getGameRoomId(event.gameId));
 
       socket.emit(events.joinSucceeded, {
-        gameId: event.gameId,
-        playerId: player.getId(),
-        token: player.getToken(),
+        player: player,
         moves: game.getMoves(),
         boardSize: game.getBoardSize(),
+        players,
       });
+
+      socket
+        .to(getGameRoomId(event.gameId))
+        .emit(events.playersUpdated, players);
     } catch (err) {
       socket.emit(events.joinFailed, {
         message: err.message,
@@ -26,7 +72,7 @@ module.exports = {
   },
   [events.create]: (socket) => {
     try {
-      const gameId = games.newGame();
+      const gameId = games.create();
 
       socket.emit(events.createSucceeded, { gameId });
     } catch (err) {
@@ -35,9 +81,9 @@ module.exports = {
   },
   [events.makeMove]: (socket, event) => {
     try {
-      const game = games.getGame(event.gameId);
+      const game = games.get(event.gameId);
 
-      game.makeMove(event.move);
+      game.makeMove(event.token, event.move);
 
       socket.to(getGameRoomId(event.gameId)).emit(events.makeMoveSucceeded, {
         gameId: event.gameId,
@@ -49,9 +95,9 @@ module.exports = {
   },
   [events.resetMoves]: (socket, event) => {
     try {
-      const game = games.getGame(event.gameId);
+      const game = games.get(event.gameId);
 
-      game.resetMoves();
+      game.resetMoves(event.token);
 
       socket.to(getGameRoomId(event.gameId)).emit(events.resetMovesSucceeded, {
         gameId: event.gameId,
@@ -62,9 +108,9 @@ module.exports = {
   },
   [events.setBoardSize]: (socket, event) => {
     try {
-      const game = games.getGame(event.gameId);
+      const game = games.get(event.gameId);
 
-      game.setBoardSize(event.size);
+      game.setBoardSize(event.token, event.size);
 
       socket
         .to(getGameRoomId(event.gameId))

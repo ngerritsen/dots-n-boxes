@@ -1,12 +1,13 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import styled from "styled-components";
 import Container from "./Shared/Container";
 import Button from "./Shared/Button";
 import Section from "./Shared/Section";
 import { create } from "../slices/game";
-import { createGameRoute } from "../utils/routes";
 import { useHistory } from "react-router";
+import Username from "./Username";
+import Title from "./Shared/Title";
+import Center from "./Shared/Center";
 
 const Start = () => {
   const dispatch = useDispatch();
@@ -14,30 +15,26 @@ const Start = () => {
 
   return (
     <Container>
-      <Title>Dots {"'"}n Boxes</Title>
-      <Section size={12}>
-        <Section size={4}>
-          <Button color="primary" onClick={() => dispatch(create())}>
+      <Center>
+        <Title>Dots {"'"}n Boxes</Title>
+        <Section size={8}>
+          <Button color="primary" onClick={() => dispatch(create({ history }))}>
             Create game
           </Button>
         </Section>
         <Section size={4}>
-          <Button
-            onClick={() => history.push(createGameRoute("local"))}
-            color="success"
-          >
+          <Button onClick={() => history.push("/local")} color="success">
             Play local
           </Button>
         </Section>
-      </Section>
+        <Section size={4}>
+          <Username />
+        </Section>
+      </Center>
     </Container>
   );
 };
 
-const Title = styled.h1`
-  font-size: 3rem;
-  font-weight: bold;
-  margin: 0;
-`;
+
 
 export default Start;

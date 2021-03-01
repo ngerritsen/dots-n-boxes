@@ -1,22 +1,22 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { createLogger } from "redux-logger";
-import { connectRouter, routerMiddleware } from "connected-react-router";
 import game from "./slices/game";
+import user from "./slices/user";
 import notification from "./slices/notification";
 import gameMiddleware from "./middlewares/game";
+import userMiddleware from "./middlewares/user";
 import notificationMiddleware from "./middlewares/notification";
-import history from "./history";
 
 export default configureStore({
   reducer: {
     game,
     notification,
-    router: connectRouter(history),
+    user,
   },
   middleware: [
     gameMiddleware,
     notificationMiddleware,
-    routerMiddleware(history),
+    userMiddleware,
     createLogger({ collapsed: true }),
   ],
 });

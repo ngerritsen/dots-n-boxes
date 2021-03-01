@@ -3,19 +3,19 @@ import { createSlice } from "@reduxjs/toolkit";
 const gameSlice = createSlice({
   name: "game",
   initialState: {
-    playerId: -1,
+    player: -1,
     boardSize: 4,
     moves: [],
+    players: []
   },
   reducers: {
     join: (state) => state,
     joinSucceeded: (state, action) => {
-      state.connecting = false;
-      state.playerId = action.payload.playerId;
+      state.player = action.payload.player;
     },
     create: (state) => state,
     makeMove(state, action) {
-      state.moves.push(action.payload);
+      state.moves.push(action.payload.move);
     },
     resetMoves(state) {
       state.moves = [];
@@ -25,6 +25,9 @@ const gameSlice = createSlice({
     },
     setBoardSize(state, action) {
       state.boardSize = action.payload.size;
+    },
+    updatePlayers(state, action) {
+      state.players = action.payload.players;
     },
   },
 });
@@ -37,6 +40,7 @@ export const {
   resetMoves,
   updateMoves,
   setBoardSize,
+  updatePlayers,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

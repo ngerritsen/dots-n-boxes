@@ -2,11 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
-import { getGameState } from "../selectors";
-import { getColor, getPlayerColor, getSize } from "../utils/theme";
+import { getGameState, getPlayers } from "../selectors";
+import { getColor, getPlayerColor, getRadius, getSize } from "../utils/theme";
 
 const Score = () => {
   const { activePlayer, playerWon, scores } = useSelector(getGameState);
+  const players = useSelector(getPlayers);
 
   return (
     <>
@@ -16,27 +17,32 @@ const Score = () => {
           player={player}
           isActive={activePlayer === player}
         >
-          <span>
-            {score}
-            {playerWon === player && <strong> Won!</strong>}
-          </span>
+            <Player>{players && players[player] || "Unknown"}</Player>
+            <strong>{score} {playerWon === player && "Won!"}</strong>
         </PlayerScore>
       ))}
     </>
   );
 };
 
+const Player = styled.span`
+  overflow: ellipsis;
+  flex-grow: 1;
+  whitespace: no-wrap;
+`;
+
 const PlayerScore = styled.span`
   background-color: ${(props) => props.isActive && getColor("subtleBg")};
-  font-weight: ${(props) => (props.isActive ? "bold" : "medium")};
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  border-radius: ${getSize(2)};
+  border-radius: ${getRadius("rounded")};
   margin-right: ${getSize(5)};
-  padding: ${getSize(2)} ${getSize(3)};
+  margin-bottom: ${getSize(2)};
+  width: 100%;
+  padding: ${getSize(2)} ${getSize(4)} ${getSize(2)} ${getSize(3)};
 
   &:before {
-    border-radius: ${getSize(1)};
+    border-radius: ${getRadius("rounded")};
     display: inline-block;
     content: "";
     height: ${getSize(4)};

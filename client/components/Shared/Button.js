@@ -1,12 +1,12 @@
 import { darken } from "polished";
 import styled from "styled-components";
-import { getColor, getSize } from "../../utils/theme";
+import { getColor, getSize, getRadius } from "../../utils/theme";
 import ButtonGroup from "./ButtonGroup";
 
 const Button = styled.button`
   border: none;
-  padding: ${getSize(2)} ${getSize(3)};
-  border-radius: ${getSize(2)};
+  padding: ${props => getSize(props.small ? 2 : 3)} ${props => getSize(props.small ? 4 : 5)};
+  border-radius: ${getRadius("rounded")};
   color: ${getColor("bg")};
   background-color: ${(props) =>
     props.disabled
@@ -14,7 +14,8 @@ const Button = styled.button`
       : getColor(props.color || "neutral")(props)};
   font-weight: bold;
   font-size: 1.4rem;
-  cursor: pointer;
+  width: ${props => props.fullWidth ? '100%' : 'auto'};
+  cursor: ${props => props.disabled ? "default" : "pointer"};
   transition: background-color 0.2s ease;
 
   ${ButtonGroup} & {
@@ -22,11 +23,11 @@ const Button = styled.button`
   }
 
   ${ButtonGroup} &:first-child {
-    border-radius: ${getSize(2)} 0 0 ${getSize(2)};
+    border-radius: ${getRadius("rounded")} 0 0 ${getRadius("rounded")};
   }
 
   ${ButtonGroup} &:last-child {
-    border-radius: 0 ${getSize(2)} ${getSize(2)} 0;
+    border-radius: 0 ${getRadius("rounded")} ${getRadius("rounded")} 0;
   }
 
   &:focus,
