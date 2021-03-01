@@ -4,8 +4,8 @@
   "description": "Boxes game",
   "main": "index.js",
   "scripts": {
-    "build": "npx parcel build ./src/index.html",
-    "serve": "concurrently 'npx parcel watch ./client/index.html' 'nodemon ./server'",
+    "build": "parcel build ./client/index.html",
+    "serve": "concurrently 'parcel watch ./client/index.html' 'nodemon ./server'",
     "start": "node ./server",
     "lint": "concurrently 'eslint .' 'prettier --check .'",
     "fix": "eslint . --fix; prettier --write ."
