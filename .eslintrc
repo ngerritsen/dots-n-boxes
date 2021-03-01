@@ -16,7 +16,7 @@
   },
   "overrides": [
     {
-      "files": ["server/**/*.js"],
+      "files": ["server/**/*.js", "shared/**/*.js"],
       "env": {
         "browser": false,
         "node": true

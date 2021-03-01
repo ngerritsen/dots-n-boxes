@@ -1,0 +1,17 @@
+module.exports = {
+  join: "join",
+  joinSucceeded: "joinSucceeded",
+  joinFailed: "joinFailed",
+  create: "create",
+  createSucceeded: "createSucceeded",
+  createFailed: "createFailed",
+  makeMove: "makeMove",
+  makeMoveSucceeded: "makeMoveSucceeded",
+  makeMoveFailed: "makeMoveFailed",
+  resetMoves: "resetMoves",
+  resetMovesSucceeded: "resetMovesSucceeded",
+  resetMovesFailed: "resetMovesFailed",
+  setBoardSize: "setBoardSize",
+  setBoardSizeSucceeded: "setBoardSizeSucceeded",
+  setBoardSizeFailed: "setBoardSizeFailed",
+};
