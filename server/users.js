@@ -1,21 +1,32 @@
-const { nanoid } = require("nanoid");
+const client = require("./redis");
 const createUser = require("./user");
 
-let users = {};
+const register = async (name) => {
+  const user = createUser({ name });
 
-const get = (token) => users[token];
-const register = (name) => {
-  const token = nanoid();
+  await store(user);
 
-  users = {
-    ...users,
-    [token]: createUser(token, name),
-  };
-
-  return token;
+  return user.getToken();
 };
+
+const get = async (token) => {
+  const data = await client.getAsync(getKey(token));
+
+  if (!data) {
+    return null;
+  }
+
+  return createUser(JSON.parse(data));
+};
+
+const store = async (user) => {
+  await client.setAsync(getKey(user.getToken()), JSON.stringify(user));
+};
+
+const getKey = (token) => "user/" + token;
 
 module.exports = {
   get,
   register,
+  store,
 };

@@ -1,27 +1,31 @@
-const { nanoid } = require("nanoid");
+const client = require("./redis");
 const createGame = require("./game");
 const { invariant } = require("./utils");
 
-let games = {};
+const create = async () => {
+  const game = createGame();
 
-const create = () => {
-  const id = nanoid(8);
+  await store(game);
 
-  games = { ...games, [id]: createGame(id) };
-
-  return id;
+  return game.getId();
 };
 
-const get = (id) => {
-  invariant(games[id], "Game does not exist.");
+const get = async (id) => {
+  const data = await client.getAsync(getKey(id));
 
-  return games[id];
+  invariant(data, "Game does not exist.");
+
+  return createGame(JSON.parse(data));
 };
 
-const getAll = () => Object.values(games);
+const store = async (game) => {
+  await client.setAsync(getKey(game.getId()), JSON.stringify(game));
+};
+
+const getKey = (id) => "game/" + id;
 
 module.exports = {
   create,
   get,
-  getAll,
+  store,
 };

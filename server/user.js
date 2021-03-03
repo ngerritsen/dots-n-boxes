@@ -1,9 +1,12 @@
+const { nanoid } = require("nanoid");
 const { invariant } = require("./utils");
 const { maxUsernameLength } = require("../shared/constants/limits");
 
-const createUser = (token, name = "Unknown") => {
+const createUser = ({ token = nanoid(), name = "Unknown" }) => {
+  const toJSON = () => ({ token, name });
   const getToken = () => token;
   const getName = () => name;
+
   const setName = (newName = "") => {
     const trimmed = newName.trim();
 
@@ -20,6 +23,7 @@ const createUser = (token, name = "Unknown") => {
     getToken,
     getName,
     setName,
+    toJSON,
   };
 };
 

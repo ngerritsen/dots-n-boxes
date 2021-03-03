@@ -1,18 +1,22 @@
+const { nanoid } = require("nanoid");
 const boardSizes = require("../shared/boardSizes");
 const { calculateGameState } = require("../shared/utils/game");
 const { invariant } = require("./utils");
 
 const maxPlayers = 2;
 
-const createGame = (id) => {
-  let players = [];
-  let moves = [];
-  let boardSize = 4;
-
+const createGame = ({
+  id = nanoid(8),
+  players = [],
+  moves = [],
+  boardSize = 4,
+} = {}) => {
+  const toJSON = () => ({ id, players, moves, boardSize });
   const getId = () => id;
-
-  const hasPlayer = (token) => players.indexOf(token) > -1;
+  const getBoardSize = () => boardSize;
   const getPlayers = () => players;
+  const getMoves = () => moves;
+  const hasPlayer = (token) => players.indexOf(token) > -1;
 
   const join = (token) => {
     const player = players.indexOf(token);
@@ -28,7 +32,6 @@ const createGame = (id) => {
     return players.length - 1;
   };
 
-  const getBoardSize = () => boardSize;
   const setBoardSize = (token, size) => {
     invariant(hasPlayer(token), "Player is not in this game.");
     invariant(boardSizes.includes(size), "Invalid board size");
@@ -42,7 +45,7 @@ const createGame = (id) => {
 
     moves = [];
   };
-  const getMoves = () => moves;
+
   const makeMove = (token, move) => {
     const player = players.indexOf(token);
 
@@ -68,8 +71,8 @@ const createGame = (id) => {
     getBoardSize,
     setBoardSize,
     getId,
-    hasPlayer,
     getPlayers,
+    toJSON,
   };
 };
 

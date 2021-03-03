@@ -24,6 +24,15 @@ export default ({ dispatch, getState }) => (next) => {
     dispatch(register({ token: data.token }));
   });
 
+  socket.on(events.updateNameSucceeded, () => {
+    dispatch(
+      notify({
+        message: "Name updated.",
+        type: "sucess",
+      })
+    );
+  });
+
   socket.on(events.updateNameFailed, (data) => {
     dispatch(
       notify({

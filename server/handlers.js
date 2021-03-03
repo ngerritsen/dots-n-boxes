@@ -1,17 +1,24 @@
 const events = require("../shared/events");
 const games = require("./games");
 const users = require("./users");
-const { getGameRoomId, leaveAllGames, getPlayerNames } = require("./utils");
+const {
+  getGameRoomId,
+  leaveAllGames,
+  getPlayerNames,
+  invariant,
+  getActiveGameId,
+} = require("./utils");
 
 module.exports = (io) => ({
-  [events.register]: (socket, event) => {
+  [events.register]: async (socket, event) => {
     try {
-      const user = users.get(event.token);
+      const user = await users.get(event.token);
 
       if (!user) {
         socket.emit(events.registerSucceeded, {
-          token: users.register(event.name),
+          token: await users.register(event.name),
         });
+
         return;
       }
 
@@ -20,39 +27,41 @@ module.exports = (io) => ({
       socket.emit(events.registerFailed, { message: err.message });
     }
   },
-  [events.updateName]: (socket, event) => {
+  [events.updateName]: async (socket, event) => {
     try {
-      const user = users.get(event.token);
+      const user = await users.get(event.token);
 
-      if (!user) {
-        throw new Error("User not found");
-      }
+      invariant(user, "User not found");
 
       user.setName(event.name);
 
+      await users.store(user);
+
       socket.emit(events.updateNameSucceeded);
 
-      games.getAll().forEach((game) => {
-        if (!game.hasPlayer(event.token)) {
-          return;
-        }
+      const gameId = getActiveGameId(socket);
+
+      if (gameId) {
+        const game = await games.get(gameId);
 
         io.in(getGameRoomId(game.getId())).emit(events.playersUpdated, {
-          players: getPlayerNames(game, users),
+          players: await getPlayerNames(users, game.getPlayers()),
         });
-      });
+      }
     } catch (err) {
       socket.emit(events.updateNameFailed, { message: err.message });
     }
   },
-  [events.join]: (socket, event) => {
+  [events.join]: async (socket, event) => {
     try {
-      const game = games.get(event.gameId);
+      const game = await games.get(event.gameId);
       const player = game.join(event.token);
-      const players = getPlayerNames(game, users);
+      const players = await getPlayerNames(users, game.getPlayers());
 
       leaveAllGames(socket);
       socket.join(getGameRoomId(event.gameId));
+
+      await games.store(game);
 
       socket.emit(events.joinSucceeded, {
         player: player,
@@ -61,29 +70,31 @@ module.exports = (io) => ({
         players,
       });
 
-      socket
-        .to(getGameRoomId(event.gameId))
-        .emit(events.playersUpdated, players);
+      socket.to(getGameRoomId(game.getId())).emit(events.playersUpdated, {
+        players: await getPlayerNames(users, game.getPlayers()),
+      });
     } catch (err) {
       socket.emit(events.joinFailed, {
         message: err.message,
       });
     }
   },
-  [events.create]: (socket) => {
+  [events.create]: async (socket) => {
     try {
-      const gameId = games.create();
+      const gameId = await games.create();
 
       socket.emit(events.createSucceeded, { gameId });
     } catch (err) {
       socket.emit(events.createFailed, { message: err.message });
     }
   },
-  [events.makeMove]: (socket, event) => {
+  [events.makeMove]: async (socket, event) => {
     try {
-      const game = games.get(event.gameId);
+      const game = await games.get(event.gameId);
 
       game.makeMove(event.token, event.move);
+
+      await games.store(game);
 
       socket.to(getGameRoomId(event.gameId)).emit(events.makeMoveSucceeded, {
         gameId: event.gameId,
@@ -93,11 +104,13 @@ module.exports = (io) => ({
       socket.emit(events.makeMoveFailed, { message: err.message });
     }
   },
-  [events.resetMoves]: (socket, event) => {
+  [events.resetMoves]: async (socket, event) => {
     try {
-      const game = games.get(event.gameId);
+      const game = await games.get(event.gameId);
 
       game.resetMoves(event.token);
+
+      await games.store(game);
 
       socket.to(getGameRoomId(event.gameId)).emit(events.resetMovesSucceeded, {
         gameId: event.gameId,
@@ -106,11 +119,13 @@ module.exports = (io) => ({
       socket.emit(events.resetMovesFailed, { message: err.message });
     }
   },
-  [events.setBoardSize]: (socket, event) => {
+  [events.setBoardSize]: async (socket, event) => {
     try {
-      const game = games.get(event.gameId);
+      const game = await games.get(event.gameId);
 
       game.setBoardSize(event.token, event.size);
+
+      await games.store(game);
 
       socket
         .to(getGameRoomId(event.gameId))
