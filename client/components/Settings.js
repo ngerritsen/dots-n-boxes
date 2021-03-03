@@ -16,7 +16,6 @@ import Modal from "./Shared/Modal";
 import Section from "./Shared/Section";
 import ButtonIcon from "./Shared/ButtonIcon";
 
-
 const Settings = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState("");
@@ -69,8 +68,7 @@ const Settings = () => {
             <Button color="primary" disabled={!name || error} type="submit">
               Save
             </Button>
-            &nbsp;
-            &nbsp;
+            &nbsp; &nbsp;
             <Button type="submit" onClick={() => setIsOpen(false)}>
               Cancel
             </Button>

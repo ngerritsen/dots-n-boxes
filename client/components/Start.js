@@ -15,12 +15,20 @@ const Start = () => {
     <Center>
       <Buttons>
         <Section size={4}>
-          <Button fullWidth color="primary" onClick={() => dispatch(create({ history }))}>
+          <Button
+            fullWidth
+            color="primary"
+            onClick={() => dispatch(create({ history }))}
+          >
             Create game
           </Button>
         </Section>
         <Section size={4}>
-          <Button fullWidth onClick={() => history.push("/local")} color="success">
+          <Button
+            fullWidth
+            onClick={() => history.push("/local")}
+            color="success"
+          >
             Play local
           </Button>
         </Section>

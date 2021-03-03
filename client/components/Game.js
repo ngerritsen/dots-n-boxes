@@ -29,7 +29,6 @@ const Game = () => {
   }, [gameId, token]);
 
   return (
-    
     <Grid>
       <Sidebar>
         <Button fullWidth onClick={() => history.push("/")} color="primary">

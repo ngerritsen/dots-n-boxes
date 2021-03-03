@@ -20,7 +20,7 @@ ReactDOM.render(
         <GlobalStyle />
         <Container>
           <Notification />
-          <Header/>
+          <Header />
           <BrowserRouter>
             <Switch>
               <Route path="/" exact>

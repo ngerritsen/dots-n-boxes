@@ -5,10 +5,14 @@ import ButtonGroup from "./ButtonGroup";
 
 const Button = styled.button`
   border: none;
-  padding: ${(props) => getSize(props.small ? 2 : 3)} ${(props) => getSize(props.small ? 4 : 5)};
+  padding: ${(props) => getSize(props.small ? 2 : 3)}
+    ${(props) => getSize(props.small ? 4 : 5)};
   border-radius: ${getRadius("rounded")};
   line-height: 1.1;
-  color: ${props => getLuminance(getColor(props.color || "neutral")(props)) > 0.6 ? getColor("fg") : getColor("invertedFg")};
+  color: ${(props) =>
+    getLuminance(getColor(props.color || "neutral")(props)) > 0.6
+      ? getColor("fg")
+      : getColor("invertedFg")};
   background-color: ${(props) =>
     props.disabled
       ? getColor("subtleBg")(props)
