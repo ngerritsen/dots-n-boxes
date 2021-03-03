@@ -1,6 +1,6 @@
 import socket from "../socket";
 import events from "../../shared/events";
-import { register, updateName } from "../slices/user";
+import { register, updateName, submitName } from "../slices/user";
 import * as user from "../storage/user";
 import { notify } from "../slices/notification";
 import { getToken } from "../selectors";
@@ -40,7 +40,7 @@ export default ({ dispatch, getState }) => (next) => {
   });
 
   return (action) => {
-    if (action.type === String(updateName)) {
+    if (action.type === String(submitName)) {
       user.setName(action.payload.name);
 
       if (getToken(getState())) {

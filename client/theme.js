@@ -1,4 +1,4 @@
-import { darken } from "polished";
+import { lighten } from "polished";
 
 const BASE_SIZE = 0.4;
 const MAX_SIZE = 40;
@@ -12,9 +12,8 @@ export default {
     fg: "#222",
     bg: "#fff",
     invertedFg: "#fff",
-    subtleBg: "#d1d8e0",
+    subtleBg: lighten(0.05, "#d1d8e0"),
     neutral: "#4b6584",
-    dark: darken(0.2, "#4b6584"),
     primary: "#4b7bec",
     success: "#20bf6b",
     gold: "#f7b731",

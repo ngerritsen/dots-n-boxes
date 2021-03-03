@@ -1,4 +1,4 @@
-import { darken } from "polished";
+import { darken, getLuminance } from "polished";
 import styled from "styled-components";
 import { getColor, getSize, getRadius } from "../../utils/theme";
 import ButtonGroup from "./ButtonGroup";
@@ -6,9 +6,9 @@ import ButtonGroup from "./ButtonGroup";
 const Button = styled.button`
   border: none;
   padding: ${(props) => getSize(props.small ? 2 : 3)} ${(props) => getSize(props.small ? 4 : 5)};
-  border-radius: ${getRadius("default")};
+  border-radius: ${getRadius("rounded")};
   line-height: 1.1;
-  color: ${getColor("bg")};
+  color: ${props => getLuminance(getColor(props.color || "neutral")(props)) > 0.6 ? getColor("fg") : getColor("invertedFg")};
   background-color: ${(props) =>
     props.disabled
       ? getColor("subtleBg")(props)

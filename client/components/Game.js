@@ -10,7 +10,6 @@ import Reset from "./Reset";
 import Resize from "./Resize";
 import Section from "./Shared/Section";
 import Button from "./Shared/Button";
-import Container from "./Shared/Container";
 import { join } from "../slices/game";
 import { getToken } from "../selectors";
 import { getSize } from "../utils/theme";

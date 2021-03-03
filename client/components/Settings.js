@@ -2,39 +2,38 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { faCog } from "@fortawesome/free-solid-svg-icons/faCog";
+import { faUserCircle } from "@fortawesome/free-solid-svg-icons/faUserCircle";
 
 import limits from "../../shared/constants/limits";
 import { getSize } from "../utils/theme";
 import { getColor } from "../utils/theme";
-import { updateName } from "../slices/user";
+import { updateName, submitName } from "../slices/user";
 import { getName } from "../selectors";
 import Input from "./Shared/Input";
 import Label from "./Shared/Label";
 import Button from "./Shared/Button";
 import Modal from "./Shared/Modal";
 import Section from "./Shared/Section";
-import IconButton from "./Shared/IconButton";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ButtonIcon from "./Shared/ButtonIcon";
+
 
 const Settings = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState("");
   const name = useSelector(getName);
-  const [value, setValue] = useState(name);
   const dispatch = useDispatch();
 
   const onChange = (event) => {
-    const val = event.target.value.trim();
+    const value = event.target.value.trim();
 
-    setValue(event.target.value);
+    dispatch(updateName({ name: value }));
 
-    if (!val) {
+    if (!value) {
       setError("Username cannot be empty.");
       return;
     }
 
-    if (val.length > limits.maxUsernameLength) {
+    if (value.length > limits.maxUsernameLength) {
       setError("Username cannot be longer than 12 characters.");
       return;
     }
@@ -45,22 +44,29 @@ const Settings = () => {
   const onSubmit = (event) => {
     event.preventDefault();
 
-    dispatch(updateName({ name: value }));
+    if (error) {
+      return;
+    }
+
+    dispatch(submitName({ name }));
     setIsOpen(false);
   };
 
   return (
     <>
-      <IconButton onClick={() => setIsOpen(true)}>
-        <FontAwesomeIcon icon={faCog} />
-      </IconButton>
+      <div>
+        <Button color="subtleBg" small onClick={() => setIsOpen(true)}>
+          <ButtonIcon icon={faUserCircle} />
+          {name}
+        </Button>
+      </div>
       <Modal isOpen={isOpen}>
         <Form onSubmit={onSubmit}>
           <Label>Enter your name:</Label>
-          <Input type="text" value={value} onInput={onChange} />
+          <Input type="text" value={name} onInput={onChange} />
           {error && <Error>{error}</Error>}
           <Section size={4}>
-            <Button color="primary" disabled={!value || error} type="submit">
+            <Button color="primary" disabled={!name || error} type="submit">
               Save
             </Button>
             &nbsp;

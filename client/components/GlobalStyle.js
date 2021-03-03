@@ -14,7 +14,7 @@ export default createGlobalStyle`
   }
 
   body {
-    font-family: Rubik, Arial, sans-serif;
+    font-family: 'Work Sans', Arial, sans-serif;
     font-size: 1.6rem;
     margin: 0;
     padding: 0;
