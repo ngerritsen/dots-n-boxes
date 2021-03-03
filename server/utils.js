@@ -13,13 +13,16 @@ const invariant = (condition, message) => {
   }
 };
 
-const getPlayers = (game, users) =>
-  game.getPlayers().map((token) => users.get(token) ? users.get(token).getName() : "");
+const getPlayerNames = (game, users) => {
+  return game
+    .getPlayers()
+    .map((token) => (users.get(token) ? users.get(token).getName() : ""));
+};
 
 module.exports = {
   getGameRoomId,
   leaveAllGames,
   isGameRoom,
   invariant,
-  getPlayers,
+  getPlayerNames,
 };

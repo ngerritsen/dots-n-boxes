@@ -7,12 +7,11 @@ import { getColor, getSize } from "../../utils/theme";
 
 const Modal = ({ children, isOpen }) =>
   ReactDOM.createPortal(
-    isOpen &&
-    <Overlay>
-      <ModalBox>
-        {children}
-      </ModalBox>
-    </Overlay>,
+    isOpen && (
+      <Overlay>
+        <ModalBox>{children}</ModalBox>
+      </Overlay>
+    ),
     document.getElementById("modal")
   );
 
@@ -27,7 +26,7 @@ const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${props => transparentize(0.5, getColor("fg")(props))}
+  background-color: ${(props) => transparentize(0.5, getColor("fg")(props))};
 `;
 
 const ModalBox = styled.div`
@@ -39,7 +38,7 @@ const ModalBox = styled.div`
 
 Modal.propTypes = {
   isOpen: PropTypes.bool,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default Modal;

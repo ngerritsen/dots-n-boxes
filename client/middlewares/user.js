@@ -16,7 +16,7 @@ export default ({ dispatch, getState }) => (next) => {
 
   socket.emit(events.register, {
     token: user.getToken(),
-    name: user.getName()
+    name: user.getName(),
   });
 
   socket.on(events.registerSucceeded, (data) => {
@@ -25,7 +25,12 @@ export default ({ dispatch, getState }) => (next) => {
   });
 
   socket.on(events.updateNameFailed, (data) => {
-    dispatch(notify({ message: "Failed to update name: " + data.message, type: "error" }));
+    dispatch(
+      notify({
+        message: "Failed to update name: " + data.message,
+        type: "error",
+      })
+    );
   });
 
   socket.on(events.registerFailed, (data) => {

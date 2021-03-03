@@ -11,11 +11,13 @@ export default {
   colors: {
     fg: "#222",
     bg: "#fff",
+    invertedFg: "#fff",
     subtleBg: "#d1d8e0",
     neutral: "#4b6584",
-    dark: darken(0.3, "#4b6584"),
+    dark: darken(0.2, "#4b6584"),
     primary: "#4b7bec",
     success: "#20bf6b",
+    gold: "#f7b731",
     danger: "#eb3b5a",
     players: ["#45aaf2", "#fa8231"],
   },
@@ -25,7 +27,7 @@ export default {
   },
   sizes: {
     ...sizes,
-    box: sizes[18],
+    box: sizes[20],
     edge: sizes[2],
     boxPadding: sizes[3],
   },

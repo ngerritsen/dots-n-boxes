@@ -2,7 +2,7 @@ const express = require("express");
 const socketIo = require("socket.io");
 const http = require("http");
 const path = require("path");
-const handlers = require("./handlers");
+const createHandlers = require("./handlers");
 
 const app = express();
 const server = http.createServer(app);
@@ -16,6 +16,8 @@ app.get("/*", (_, res) => {
 });
 
 io.on("connection", (socket) => {
+  const handlers = createHandlers(io);
+
   Object.keys(handlers).forEach((key) =>
     socket.on(key, (event) => handlers[key](socket, event))
   );

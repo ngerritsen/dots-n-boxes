@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "parcel build ./client/index.html",
-    "serve": "concurrently 'parcel watch ./client/index.html' 'nodemon ./server'",
+    "serve": "concurrently 'parcel watch ./client/index.html' 'DEBUG=\"socket.io:socket\" nodemon ./server'",
     "start": "node ./server",
     "lint": "concurrently 'eslint .' 'prettier --check .'",
     "fix": "eslint . --fix; prettier --write ."
@@ -37,6 +37,9 @@
     "sass": "^1.32.8"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "@reduxjs/toolkit": "^1.5.0",
     "connected-react-router": "^6.9.1",
     "express": "^4.17.1",

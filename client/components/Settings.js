@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { faCog } from "@fortawesome/free-solid-svg-icons/faCog";
 
 import limits from "../../shared/constants/limits";
 import { getSize } from "../utils/theme";
@@ -13,8 +14,10 @@ import Label from "./Shared/Label";
 import Button from "./Shared/Button";
 import Modal from "./Shared/Modal";
 import Section from "./Shared/Section";
+import IconButton from "./Shared/IconButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Username = ({ fullWidth, small }) => {
+const Settings = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState("");
   const name = useSelector(getName);
@@ -37,7 +40,7 @@ const Username = ({ fullWidth, small }) => {
     }
 
     setError("");
-  }
+  };
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -48,16 +51,23 @@ const Username = ({ fullWidth, small }) => {
 
   return (
     <>
-      <Button fullWidth={fullWidth} small={small} onClick={() => setIsOpen(true)}>Settings</Button>
+      <IconButton onClick={() => setIsOpen(true)}>
+        <FontAwesomeIcon icon={faCog} />
+      </IconButton>
       <Modal isOpen={isOpen}>
         <Form onSubmit={onSubmit}>
           <Label>Enter your name:</Label>
           <Input type="text" value={value} onInput={onChange} />
           {error && <Error>{error}</Error>}
           <Section size={4}>
-            <Button color="primary" disabled={!value || error} type="submit">Save</Button>
+            <Button color="primary" disabled={!value || error} type="submit">
+              Save
+            </Button>
             &nbsp;
-            <Button type="submit" onClick={() => setIsOpen(false)}>Cancel</Button>
+            &nbsp;
+            <Button type="submit" onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
           </Section>
         </Form>
       </Modal>
@@ -76,9 +86,9 @@ const Error = styled.p`
   margin: ${getSize(1)} 0 0;
 `;
 
-Username.propTypes = {
+Settings.propTypes = {
   fullWidth: PropTypes.bool,
-  small: PropTypes.bool
-}
+  small: PropTypes.bool,
+};
 
-export default Username;
+export default Settings;

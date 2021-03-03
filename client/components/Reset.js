@@ -15,6 +15,7 @@ const Reset = () => {
     <Button
       type="button"
       color="danger"
+      small
       disabled={isClear}
       onClick={isClear ? undefined : () => dispatch(resetMoves({ gameId }))}
     >

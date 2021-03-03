@@ -1,9 +1,9 @@
 const events = require("../shared/events");
 const games = require("./games");
 const users = require("./users");
-const { getGameRoomId, leaveAllGames, getPlayers } = require("./utils");
+const { getGameRoomId, leaveAllGames, getPlayerNames } = require("./utils");
 
-module.exports = {
+module.exports = (io) => ({
   [events.register]: (socket, event) => {
     try {
       const user = users.get(event.token);
@@ -29,7 +29,7 @@ module.exports = {
       }
 
       user.setName(event.name);
-      
+
       socket.emit(events.updateNameSucceeded);
 
       games.getAll().forEach((game) => {
@@ -37,9 +37,9 @@ module.exports = {
           return;
         }
 
-        socket
-          .to(getGameRoomId(game.getId()))
-          .emit(events.playersUpdated, getPlayers(game, users));
+        io.in(getGameRoomId(game.getId())).emit(events.playersUpdated, {
+          players: getPlayerNames(game, users),
+        });
       });
     } catch (err) {
       socket.emit(events.updateNameFailed, { message: err.message });
@@ -49,7 +49,7 @@ module.exports = {
     try {
       const game = games.get(event.gameId);
       const player = game.join(event.token);
-      const players = getPlayers(game, users);
+      const players = getPlayerNames(game, users);
 
       leaveAllGames(socket);
       socket.join(getGameRoomId(event.gameId));
@@ -122,4 +122,4 @@ module.exports = {
       socket.emit(events.setBoardSizeFailed, { message: err.message });
     }
   },
-};
+});

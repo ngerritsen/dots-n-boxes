@@ -6,7 +6,7 @@ const gameSlice = createSlice({
     player: -1,
     boardSize: 4,
     moves: [],
-    players: []
+    players: [],
   },
   reducers: {
     join: (state) => state,

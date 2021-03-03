@@ -1,12 +1,9 @@
 import styled from "styled-components";
-import { getSize, getColor } from "../../utils/theme";
 
 const Title = styled.h1`
-  font-size: 3rem;
-  font-weight: bold;
-  margin: 0 0 ${getSize(8)};
+  font-size: 1.8rem;
+  margin: 0;
   padding: 0;
-  color: ${getColor("dark")};
 `;
 
 export default Title;

@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAward } from "@fortawesome/free-solid-svg-icons/faAward";
 
 import { getGameState, getPlayers } from "../selectors";
 import { getColor, getPlayerColor, getRadius, getSize } from "../utils/theme";
@@ -17,18 +19,27 @@ const Score = () => {
           player={player}
           isActive={activePlayer === player}
         >
-            <Player>{players && players[player] || "Unknown"}</Player>
-            <strong>{score} {playerWon === player && "Won!"}</strong>
+          <Player>
+            {(players && players[player]) || "Unknown"}{" "}
+            {playerWon === player && <Winner icon={faAward} />}
+          </Player>
+          <strong>{score}</strong>
         </PlayerScore>
       ))}
     </>
   );
 };
 
+const Winner = styled(FontAwesomeIcon)`
+  margin-left: ${getSize(1)};
+  color: ${getColor("gold")};
+`;
+
 const Player = styled.span`
   overflow: ellipsis;
   flex-grow: 1;
   whitespace: no-wrap;
+  margin-right: ${getSize(2)};
 `;
 
 const PlayerScore = styled.span`

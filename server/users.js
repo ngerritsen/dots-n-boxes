@@ -9,8 +9,8 @@ const register = (name) => {
 
   users = {
     ...users,
-    [token]: createUser(token, name)
-  }
+    [token]: createUser(token, name),
+  };
 
   return token;
 };

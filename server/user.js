@@ -8,7 +8,10 @@ const createUser = (token, name = "Unknown") => {
     const trimmed = newName.trim();
 
     invariant(trimmed, "Name cannot be empty");
-    invariant(trimmed.length <= maxUsernameLength, "Name cannot be longer than 12 characters.");
+    invariant(
+      trimmed.length <= maxUsernameLength,
+      "Name cannot be longer than 12 characters."
+    );
 
     name = trimmed;
   };

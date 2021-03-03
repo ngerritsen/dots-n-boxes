@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons/faChevronLeft";
 
 import Board from "./Board";
 import Score from "./Score";
@@ -13,9 +14,8 @@ import Container from "./Shared/Container";
 import { join } from "../slices/game";
 import { getToken } from "../selectors";
 import { getSize } from "../utils/theme";
-import Username from "./Username";
+import ButtonIcon from "./Shared/ButtonIcon";
 import Center from "./Shared/Center";
-import Title from "./Shared/Title";
 
 const Game = () => {
   const { gameId } = useParams();
@@ -30,24 +30,19 @@ const Game = () => {
   }, [gameId, token]);
 
   return (
-    <Container>
-      <div>
+    
+    <Grid>
+      <Sidebar>
+        <Button fullWidth onClick={() => history.push("/")} color="primary">
+          <ButtonIcon icon={faChevronLeft} /> Back to home
+        </Button>
+        <Section size={6}>
+          <Score />
+        </Section>
+      </Sidebar>
+      <Main>
         <Center>
-          <Title>Dots {"'"}n Boxes</Title>
-        </Center>
-        <Grid>
-          <Sidebar>
-            <Button fullWidth onClick={() => history.push("/")} color="primary">
-              Back to home
-            </Button>
-            <Section size={2}>
-              <Username fullWidth />
-            </Section>
-            <Section size={6}>
-              <Score />
-            </Section> 
-          </Sidebar>
-          <Main>
+          <div>
             <Board />
             <Section size={12}>
               <Resize />
@@ -55,14 +50,15 @@ const Game = () => {
             <Section size={4}>
               <Reset />
             </Section>
-          </Main>
-        </Grid>
-      </div>
-    </Container>
+          </div>
+        </Center>
+      </Main>
+    </Grid>
   );
 };
 
 const Main = styled.div`
+  flex-grow: 1;
   text-align: center;
 `;
 
