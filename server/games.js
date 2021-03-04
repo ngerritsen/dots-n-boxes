@@ -2,6 +2,8 @@ const client = require("./redis");
 const createGame = require("./game");
 const { invariant } = require("./utils");
 
+const dayInSeconds = 60 * 60 * 24;
+
 const create = async () => {
   const game = createGame();
 
@@ -19,7 +21,7 @@ const get = async (id) => {
 };
 
 const store = async (game) => {
-  await client.setAsync(getKey(game.getId()), JSON.stringify(game));
+  await client.setAsync(getKey(game.getId()), JSON.stringify(game), "EX", dayInSeconds);
 };
 
 const getKey = (id) => "game/" + id;
