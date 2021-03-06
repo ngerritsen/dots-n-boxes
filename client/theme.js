@@ -20,6 +20,9 @@ export default {
     danger: "#eb3b5a",
     players: ["#45aaf2", "#fa8231"],
   },
+  breakpoints: {
+    tablet: "720px",
+  },
   radii: {
     rounded: "99rem",
     default: sizes[3],

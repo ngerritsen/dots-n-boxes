@@ -1,15 +1,18 @@
 const { nanoid } = require("nanoid");
-const boardSizes = require("../shared/boardSizes");
+const {
+  boardSizes,
+  defaultBoardSize,
+  maxPlayers,
+  minPlayers,
+} = require("../shared/constants/game");
 const { calculateGameState } = require("../shared/utils/game");
 const { invariant } = require("./utils");
-
-const maxPlayers = 2;
 
 const createGame = ({
   id = nanoid(8),
   players = [],
   moves = [],
-  boardSize = 4,
+  boardSize = defaultBoardSize,
 } = {}) => {
   const toJSON = () => ({ id, players, moves, boardSize });
   const getId = () => id;
@@ -49,12 +52,16 @@ const createGame = ({
   const makeMove = (token, move) => {
     const player = players.indexOf(token);
 
+    invariant(
+      players.length >= minPlayers,
+      `A minimum of ${minPlayers} is needed to start.`
+    );
     invariant(hasPlayer(token), "Player is not in this game.");
     invariant(player === move.player, "Cannot make a move for another player.");
 
     const gameState = calculateGameState(moves, boardSize);
 
-    invariant(gameState.playerWon === -1, "A player already won.");
+    invariant(!gameState.finished, "Game is finished.");
     invariant(
       gameState.activePlayer === move.player,
       "It is not this player's turn."

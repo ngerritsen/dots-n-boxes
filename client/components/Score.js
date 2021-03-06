@@ -1,29 +1,44 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAward } from "@fortawesome/free-solid-svg-icons/faAward";
 
+import { defaultPlayerNames } from "../constants/players";
 import { getGameState, getPlayers } from "../selectors";
 import { getColor, getPlayerColor, getRadius, getSize } from "../utils/theme";
+import { play } from "../utils/sound";
+import playerJoined from "../sound/playerJoined.mp3";
 
 const Score = () => {
-  const { activePlayer, playerWon, scores } = useSelector(getGameState);
+  const { activePlayer, winner, scores } = useSelector(getGameState);
   const players = useSelector(getPlayers);
+  const prevPlayers = useRef([]);
+
+  useEffect(() => {
+    if (
+      players.length > 1 &&
+      players.length - prevPlayers.current.length === 1
+    ) {
+      play(playerJoined);
+    }
+
+    prevPlayers.current = players;
+  }, [players]);
 
   return (
     <>
-      {scores.map((score, player) => (
+      {players.map((name, player) => (
         <PlayerScore
           key={player}
           player={player}
           isActive={activePlayer === player}
         >
           <Player>
-            {(players && players[player]) || "Unknown"}{" "}
-            {playerWon === player && <Winner icon={faAward} />}
+            {name || defaultPlayerNames[player]}{" "}
+            {winner === player && <Winner icon={faAward} />}
           </Player>
-          <strong>{score}</strong>
+          <strong>{scores[player]}</strong>
         </PlayerScore>
       ))}
     </>
@@ -31,7 +46,7 @@ const Score = () => {
 };
 
 const Winner = styled(FontAwesomeIcon)`
-  margin-left: ${getSize(1)};
+  margin-left: ${getSize(2)};
   color: ${getColor("gold")};
 `;
 

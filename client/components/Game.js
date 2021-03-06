@@ -6,24 +6,28 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons/faChevronLeft";
 
 import Board from "./Board";
 import Score from "./Score";
-import Reset from "./Reset";
 import Resize from "./Resize";
 import Section from "./Shared/Section";
 import Button from "./Shared/Button";
-import { join } from "../slices/game";
-import { getToken } from "../selectors";
-import { getSize } from "../utils/theme";
+import { join, initLocal } from "../slices/game";
+import { getGameState, getToken } from "../selectors";
+import { getBreakpoint, getSize } from "../utils/theme";
 import ButtonIcon from "./Shared/ButtonIcon";
 import Center from "./Shared/Center";
+import Result from "./Result";
+import Restart from "./Restart";
 
 const Game = () => {
   const { gameId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
   const token = useSelector(getToken);
+  const { started } = useSelector(getGameState);
 
   useEffect(() => {
-    if (token) {
+    if (gameId === "local") {
+      dispatch(initLocal());
+    } else if (token) {
       dispatch(join({ gameId }));
     }
   }, [gameId, token]);
@@ -39,33 +43,36 @@ const Game = () => {
         </Section>
       </Sidebar>
       <Main>
-        <Center>
-          <div>
-            <Board />
-            <Section size={12}>
-              <Resize />
-            </Section>
-            <Section size={4}>
-              <Reset />
-            </Section>
-          </div>
-        </Center>
+        <Board />
+        <Section size={8}>
+          <Center>{started ? <Restart /> : <Resize />}</Center>
+        </Section>
       </Main>
+      <Result />
     </Grid>
   );
 };
 
 const Main = styled.div`
-  flex-grow: 1;
-  text-align: center;
+  margin-top: ${getSize(8)};
+
+  @media (min-width: ${getBreakpoint("tablet")}) {
+    margin-top: 0;
+    flex-grow: 1;
+    text-align: center;
+  }
 `;
 
 const Grid = styled.div`
-  display: flex;
+  @media (min-width: ${getBreakpoint("tablet")}) {
+    display: flex;
+  }
 `;
 
 const Sidebar = styled.div`
-  margin-right: ${getSize(12)};
+  @media (min-width: ${getBreakpoint("tablet")}) {
+    margin-right: ${getSize(12)};
+  }
 `;
 
 export default Game;

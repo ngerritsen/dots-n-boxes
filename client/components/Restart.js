@@ -7,7 +7,7 @@ import { resetMoves } from "../slices/game";
 import Button from "./Shared/Button";
 
 const Reset = () => {
-  const { isClear } = useSelector(getGameState);
+  const { started } = useSelector(getGameState);
   const { gameId } = useParams();
   const dispatch = useDispatch();
 
@@ -15,11 +15,10 @@ const Reset = () => {
     <Button
       type="button"
       color="danger"
-      small
-      disabled={isClear}
-      onClick={isClear ? undefined : () => dispatch(resetMoves({ gameId }))}
+      disabled={!started}
+      onClick={!started ? undefined : () => dispatch(resetMoves({ gameId }))}
     >
-      Reset
+      Restart
     </Button>
   );
 };

@@ -17,11 +17,7 @@ const createBox = (index, moves, boardSize) => {
   };
 };
 
-const isBoxTaken = (edges) =>
-  edges.reduce(
-    (isTaken, { takenBy }) => (isTaken ? takenBy > -1 : isTaken),
-    true
-  );
+const isBoxTaken = (edges) => edges.every(({ takenBy }) => takenBy > -1);
 
 const boxIsTakenBy = (edges, moves) =>
   moves.reduce((takenBy, move) => {

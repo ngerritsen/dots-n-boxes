@@ -17,12 +17,16 @@ module.exports = (io) => ({
       if (!user) {
         socket.emit(events.registerSucceeded, {
           token: await users.register(event.name),
+          name: "",
         });
 
         return;
       }
 
-      socket.emit(events.registerSucceeded, { token: user.getToken() });
+      socket.emit(events.registerSucceeded, {
+        token: user.getToken(),
+        name: user.getName(),
+      });
     } catch (err) {
       socket.emit(events.registerFailed, { message: err.message });
     }
@@ -96,7 +100,7 @@ module.exports = (io) => ({
 
       await games.store(game);
 
-      socket.to(getGameRoomId(event.gameId)).emit(events.makeMoveSucceeded, {
+      io.in(getGameRoomId(event.gameId)).emit(events.makeMoveSucceeded, {
         gameId: event.gameId,
         move: event.move,
       });
@@ -112,7 +116,7 @@ module.exports = (io) => ({
 
       await games.store(game);
 
-      socket.to(getGameRoomId(event.gameId)).emit(events.resetMovesSucceeded, {
+      io.in(getGameRoomId(event.gameId)).emit(events.resetMovesSucceeded, {
         gameId: event.gameId,
       });
     } catch (err) {
@@ -127,12 +131,10 @@ module.exports = (io) => ({
 
       await games.store(game);
 
-      socket
-        .to(getGameRoomId(event.gameId))
-        .emit(events.setBoardSizeSucceeded, {
-          gameId: event.gameId,
-          size: game.getBoardSize(),
-        });
+      io.in(getGameRoomId(event.gameId)).emit(events.setBoardSizeSucceeded, {
+        gameId: event.gameId,
+        size: game.getBoardSize(),
+      });
     } catch (err) {
       socket.emit(events.setBoardSizeFailed, { message: err.message });
     }

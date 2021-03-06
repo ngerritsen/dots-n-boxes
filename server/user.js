@@ -1,8 +1,8 @@
 const { nanoid } = require("nanoid");
 const { invariant } = require("./utils");
-const { maxUsernameLength } = require("../shared/constants/limits");
+const { maxUsernameLength } = require("../shared/constants/user");
 
-const createUser = ({ token = nanoid(), name = "Unknown" }) => {
+const createUser = ({ token = nanoid(), name = "" }) => {
   const toJSON = () => ({ token, name });
   const getToken = () => token;
   const getName = () => name;
@@ -13,7 +13,7 @@ const createUser = ({ token = nanoid(), name = "Unknown" }) => {
     invariant(trimmed, "Name cannot be empty");
     invariant(
       trimmed.length <= maxUsernameLength,
-      "Name cannot be longer than 12 characters."
+      `Name cannot be longer than ${maxUsernameLength} characters.`
     );
 
     name = trimmed;

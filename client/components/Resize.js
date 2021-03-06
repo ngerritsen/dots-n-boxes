@@ -2,34 +2,31 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 
-import { getGameState } from "../selectors";
-import Button from "./Shared/Button";
-import ButtonGroup from "./Shared/ButtonGroup";
+import { getBoardSize, getGameState } from "../selectors";
 import { setBoardSize } from "../slices/game";
-import sizes from "../../shared/boardSizes";
+import gameConstants from "../../shared/constants/game";
+import Select from "./Shared/Select";
 
 const Resize = () => {
-  const { isClear } = useSelector(getGameState);
+  const { started } = useSelector(getGameState);
+  const boardSize = useSelector(getBoardSize);
   const { gameId } = useParams();
   const dispatch = useDispatch();
 
   return (
-    <ButtonGroup>
-      {sizes.map((size, index) => (
-        <Button
-          small
-          key={index}
-          type="button"
-          color="neutral"
-          disabled={!isClear}
-          onClick={
-            isClear ? () => dispatch(setBoardSize({ size, gameId })) : undefined
-          }
-        >
+    <Select
+      value={boardSize}
+      onChange={(event) =>
+        dispatch(setBoardSize({ size: Number(event.target.value), gameId }))
+      }
+      disabled={started}
+    >
+      {gameConstants.boardSizes.map((size) => (
+        <option key={size} value={size} disabled={started}>
           {size} x {size}
-        </Button>
+        </option>
       ))}
-    </ButtonGroup>
+    </Select>
   );
 };
 

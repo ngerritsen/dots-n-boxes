@@ -9,16 +9,18 @@ import { getPlayerColor, getSize, getColor } from "../utils/theme";
 import { getGameState, getPlayer } from "../selectors";
 import sides from "../../shared/constants/sides";
 import { makeMove } from "../slices/game";
+import { play } from "../utils/sound";
+import takeEdge from "../sound/takeEdge.mp3";
 
 const { top, bottom, left, right } = sides;
 
 const Edge = ({ lineEnd, lineStart, side, takenBy }) => {
   const { gameId } = useParams();
-  const { activePlayer, playerWon } = useSelector(getGameState);
+  const { activePlayer, finished } = useSelector(getGameState);
   const player = useSelector(getPlayer);
   const dispatch = useDispatch();
   const myTurn = gameId === "local" || player === activePlayer;
-  const disabled = !myTurn || playerWon !== -1 || takenBy > -1;
+  const disabled = !myTurn || finished || takenBy > -1;
 
   return (
     <StyledEdge
@@ -26,15 +28,19 @@ const Edge = ({ lineEnd, lineStart, side, takenBy }) => {
       side={side}
       activePlayer={activePlayer}
       disabled={disabled}
-      onClick={() =>
-        !disabled &&
+      onClick={() => {
+        if (disabled) {
+          return;
+        }
+
+        play(takeEdge);
         dispatch(
           makeMove({
             gameId,
             move: { player: activePlayer, lineStart, lineEnd },
           })
-        )
-      }
+        );
+      }}
     />
   );
 };

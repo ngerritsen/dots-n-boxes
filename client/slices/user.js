@@ -9,6 +9,7 @@ const userSlice = createSlice({
   reducers: {
     register: (state, action) => {
       state.token = action.payload.token;
+      state.name = action.payload.name;
     },
     updateName: (state, action) => {
       state.name = action.payload.name;

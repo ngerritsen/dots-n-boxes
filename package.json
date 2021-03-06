@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "parcel build ./client/index.html",
-    "serve": "concurrently 'parcel watch ./client/index.html' 'DEBUG=\"socket.io:socket\" nodemon ./server'",
+    "serve": "docker-compose up -d; concurrently 'parcel watch ./client/index.html' 'DEBUG=\"socket.io:socket\" nodemon ./server'",
     "start": "node ./server",
     "lint": "concurrently 'eslint .' 'prettier --check .'",
     "fix": "eslint . --fix; prettier --write ."

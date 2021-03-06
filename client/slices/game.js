@@ -9,7 +9,12 @@ const gameSlice = createSlice({
     players: [],
   },
   reducers: {
-    join: (state) => state,
+    join: (state) => {
+      state.players = [];
+      state.boardSize = 4;
+      state.moves = [];
+      state.player = -1;
+    },
     joinSucceeded: (state, action) => {
       state.player = action.payload.player;
     },
@@ -29,6 +34,12 @@ const gameSlice = createSlice({
     updatePlayers(state, action) {
       state.players = action.payload.players;
     },
+    initLocal(state) {
+      state.players = ["", ""];
+      state.boardSize = 4;
+      state.moves = [];
+      state.player = -1;
+    },
   },
 });
 
@@ -41,6 +52,7 @@ export const {
   updateMoves,
   setBoardSize,
   updatePlayers,
+  initLocal,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

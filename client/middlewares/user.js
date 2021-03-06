@@ -1,27 +1,23 @@
 import socket from "../socket";
 import events from "../../shared/events";
-import { register, updateName, submitName } from "../slices/user";
+import { register, submitName } from "../slices/user";
 import * as user from "../storage/user";
 import { notify } from "../slices/notification";
 import { getToken } from "../selectors";
 
 export default ({ dispatch, getState }) => (next) => {
-  setTimeout(() => {
-    dispatch(
-      updateName({
-        name: user.getName(),
-      })
-    );
-  });
-
   socket.emit(events.register, {
     token: user.getToken(),
-    name: user.getName(),
   });
 
   socket.on(events.registerSucceeded, (data) => {
     user.setToken(data.token);
-    dispatch(register({ token: data.token }));
+    dispatch(
+      register({
+        token: data.token,
+        name: data.name,
+      })
+    );
   });
 
   socket.on(events.updateNameSucceeded, () => {
@@ -50,8 +46,6 @@ export default ({ dispatch, getState }) => (next) => {
 
   return (action) => {
     if (action.type === String(submitName)) {
-      user.setName(action.payload.name);
-
       if (getToken(getState())) {
         socket.emit(events.updateName, {
           token: getToken(getState()),

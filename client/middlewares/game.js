@@ -35,6 +35,7 @@ export default ({ getState, dispatch }) => (next) => {
   });
 
   socket.on(events.resetMovesSucceeded, () => {
+    console.log(events.resetMovesSucceeded);
     dispatch(resetMoves(fromServer()));
   });
 
@@ -75,6 +76,7 @@ export default ({ getState, dispatch }) => (next) => {
         move: action.payload.move,
         token: getToken(getState()),
       });
+      return;
     }
 
     if (action.type === String(resetMoves)) {
@@ -82,6 +84,7 @@ export default ({ getState, dispatch }) => (next) => {
         gameId: action.payload.gameId,
         token: getToken(getState()),
       });
+      return;
     }
 
     if (action.type === String(setBoardSize)) {
@@ -90,6 +93,7 @@ export default ({ getState, dispatch }) => (next) => {
         size: action.payload.size,
         token: getToken(getState()),
       });
+      return;
     }
 
     return next(action);

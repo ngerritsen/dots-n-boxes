@@ -8,7 +8,6 @@ export const getNotification = (state) => state.notification;
 export const getToken = (state) => state.user.token;
 export const getName = (state) => state.user.name;
 export const getPlayers = (state) => state.game.players;
-export const getPathname = (state) => state.router.location.pathname;
 export const getGameState = createSelector(
   getMoves,
   getBoardSize,

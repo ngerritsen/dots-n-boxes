@@ -3,7 +3,7 @@ const determineActivePlayer = (
   previousScores,
   currentScores
 ) => {
-  const previousPlayerPreviousScore = previousScores[previousPlayer];
+  const previousPlayerPreviousScore = previousScores[previousPlayer] || 0;
   const previousPlayerCurrentScore = currentScores[previousPlayer];
   const previousPlayerScored =
     previousPlayerCurrentScore > previousPlayerPreviousScore;
