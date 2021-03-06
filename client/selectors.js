@@ -8,8 +8,10 @@ export const getNotification = (state) => state.notification;
 export const getToken = (state) => state.user.token;
 export const getName = (state) => state.user.name;
 export const getPlayers = (state) => state.game.players;
+export const getPlayerCount = (state) => state.game.players.length;
 export const getGameState = createSelector(
   getMoves,
   getBoardSize,
-  (moves, size) => gameStateUtils.calculateGameState(moves, size)
+  getPlayerCount,
+  gameStateUtils.calculateGameState
 );

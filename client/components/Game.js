@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons/faChevronLeft";
 
-import Board from "./Board";
-import Score from "./Score";
-import Resize from "./Resize";
+import Board from "./Game/Board";
+import Score from "./Game/Score";
+import Resize from "./Game/Resize";
 import Section from "./Shared/Section";
 import Button from "./Shared/Button";
 import { join, initLocal } from "../slices/game";
@@ -14,8 +14,8 @@ import { getGameState, getToken } from "../selectors";
 import { getBreakpoint, getSize } from "../utils/theme";
 import ButtonIcon from "./Shared/ButtonIcon";
 import Center from "./Shared/Center";
-import Result from "./Result";
-import Restart from "./Restart";
+import Result from "./Game/Result";
+import Restart from "./Game/Restart";
 
 const Game = () => {
   const { gameId } = useParams();

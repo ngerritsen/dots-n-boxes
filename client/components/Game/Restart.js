@@ -2,9 +2,9 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 
-import { getGameState } from "../selectors";
-import { resetMoves } from "../slices/game";
-import Button from "./Shared/Button";
+import { getGameState } from "../../selectors";
+import { resetMoves } from "../../slices/game";
+import Button from "../Shared/Button";
 
 const Reset = () => {
   const { started } = useSelector(getGameState);

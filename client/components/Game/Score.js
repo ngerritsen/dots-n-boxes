@@ -4,16 +4,22 @@ import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAward } from "@fortawesome/free-solid-svg-icons/faAward";
 
-import { defaultPlayerNames } from "../constants/players";
-import { getGameState, getPlayers } from "../selectors";
-import { getColor, getPlayerColor, getRadius, getSize } from "../utils/theme";
-import { play } from "../utils/sound";
-import playerJoined from "../sound/playerJoined.mp3";
+import { defaultPlayerNames } from "../../constants/players";
+import { getGameState, getPlayer, getPlayers } from "../../selectors";
+import {
+  getColor,
+  getPlayerColor,
+  getRadius,
+  getSize,
+} from "../../utils/theme";
+import { play } from "../../utils/sound";
+import playerJoined from "../../sound/playerJoined.mp3";
 
 const Score = () => {
   const { activePlayer, winner, scores } = useSelector(getGameState);
   const players = useSelector(getPlayers);
   const prevPlayers = useRef([]);
+  const currentPlayer = useSelector(getPlayer);
 
   useEffect(() => {
     if (
@@ -34,7 +40,7 @@ const Score = () => {
           player={player}
           isActive={activePlayer === player}
         >
-          <Player>
+          <Player current={player === currentPlayer}>
             {name || defaultPlayerNames[player]}{" "}
             {winner === player && <Winner icon={faAward} />}
           </Player>
@@ -55,6 +61,7 @@ const Player = styled.span`
   flex-grow: 1;
   whitespace: no-wrap;
   margin-right: ${getSize(2)};
+  font-weight: ${(props) => (props.current ? "bold" : "normal")};
 `;
 
 const PlayerScore = styled.span`

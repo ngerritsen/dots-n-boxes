@@ -27,7 +27,7 @@ const Overlay = styled.div`
   align-items: center;
   justify-content: center;
   padding: ${getSize(2)};
-  background-color: ${(props) => transparentize(0.5, getColor("fg")(props))};
+  background-color: ${(props) => transparentize(0.7, getColor("fg")(props))};
 `;
 
 const ModalBox = styled.div`

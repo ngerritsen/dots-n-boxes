@@ -14,6 +14,7 @@ export default createGlobalStyle`
   }
 
   body {
+    background-color: ${getColor("bg")};
     font-family: 'Work Sans', Arial, sans-serif;
     font-size: 1.6rem;
     margin: 0;

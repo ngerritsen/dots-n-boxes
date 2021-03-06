@@ -2,10 +2,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 
-import { getBoardSize, getGameState } from "../selectors";
-import { setBoardSize } from "../slices/game";
-import gameConstants from "../../shared/constants/game";
-import Select from "./Shared/Select";
+import { getBoardSize, getGameState } from "../../selectors";
+import { setBoardSize } from "../../slices/game";
+import gameConstants from "../../../shared/constants/game";
+import Select from "../Shared/Select";
 
 const Resize = () => {
   const { started } = useSelector(getGameState);

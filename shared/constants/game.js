@@ -3,5 +3,5 @@ module.exports = {
   defaultBoardSize: 5,
   maxUsernameLength: 16,
   minPlayers: 2,
-  maxPlayers: 2,
+  maxPlayers: 6,
 };

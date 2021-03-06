@@ -59,7 +59,7 @@ const createGame = ({
     invariant(hasPlayer(token), "Player is not in this game.");
     invariant(player === move.player, "Cannot make a move for another player.");
 
-    const gameState = calculateGameState(moves, boardSize);
+    const gameState = calculateGameState(moves, boardSize, players.length);
 
     invariant(!gameState.finished, "Game is finished.");
     invariant(

@@ -2,7 +2,7 @@ const createBoard = require("./board");
 const { calculateScores, determineWinner } = require("./score");
 const { determineActivePlayer } = require("./players");
 
-function calculateGameState(moves, size) {
+function calculateGameState(moves, size, playerCount) {
   const lastMoveIndex = moves.length - 1;
   const started = moves.length > 0;
 
@@ -15,7 +15,12 @@ function calculateGameState(moves, size) {
   const scores = calculateScores(board);
   const activePlayer = !started
     ? 0
-    : determineActivePlayer(previousPlayer, previousScores, scores);
+    : determineActivePlayer(
+        previousPlayer,
+        previousScores,
+        scores,
+        playerCount
+      );
   const winner = determineWinner(size, scores);
   const finished = winner > -1 || board.every((box) => box.takenBy > -1);
 

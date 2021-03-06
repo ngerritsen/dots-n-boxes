@@ -1,8 +1,10 @@
 const determineActivePlayer = (
   previousPlayer,
   previousScores,
-  currentScores
+  currentScores,
+  playerCount
 ) => {
+  console.log(playerCount);
   const previousPlayerPreviousScore = previousScores[previousPlayer] || 0;
   const previousPlayerCurrentScore = currentScores[previousPlayer];
   const previousPlayerScored =
@@ -12,7 +14,7 @@ const determineActivePlayer = (
     return previousPlayer;
   }
 
-  return getNextPlayer(previousPlayer, 2);
+  return getNextPlayer(previousPlayer, playerCount);
 };
 
 const getNextPlayer = (previousPlayer, playerCount) =>

@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { math, size } from "polished";
+
 import Edge from "./Edge";
-import { getPlayerColor, getSize } from "../utils/theme";
-import sides from "../../shared/constants/sides";
-import { lighten, math, size } from "polished";
+import { getPlayerColor, getSize } from "../../utils/theme";
+import sides from "../../../shared/constants/sides";
 
 const { top, left } = sides;
 
@@ -51,8 +52,8 @@ const BoxFill = styled.div`
   top: ${getSize(3)};
   left: ${getSize(3)};
   ${(props) => size(math(`${getSize("box")(props)} - ${getSize(6)(props)}`))};
-  background-color: ${(props) =>
-    lighten(0.2, getPlayerColor(props.takenBy)(props))};
+  background-color: ${(props) => getPlayerColor(props.takenBy)(props)};
+  opacity: 0.5;
 `;
 
 export default Box;

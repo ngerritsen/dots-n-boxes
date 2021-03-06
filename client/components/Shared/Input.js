@@ -6,6 +6,7 @@ const Input = styled.input`
   width: 100%;
   border: 1px solid ${getColor("subtleBg")};
   box-shadow: none;
+  color: ${getColor("fg")};
   border-radius: ${getSize(2)};
   padding: ${getSize(3)} ${getSize(4)};
   background: ${getColor("bg")};

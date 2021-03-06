@@ -1,20 +1,21 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { resetMoves } from "../slices/game";
-import { defaultPlayerNames } from "../constants/players";
-import { getGameState, getPlayer, getPlayers } from "../selectors";
-import { getColor, getPlayerColor } from "../utils/theme";
-import Button from "./Shared/Button";
-import Center from "./Shared/Center";
-import Modal from "./Shared/Modal";
-import Section from "./Shared/Section";
-import { useParams } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHandshake, faTrophy } from "@fortawesome/free-solid-svg-icons";
-import { play } from "../utils/sound";
-import gameWon from "../sound/gameWon.mp3";
-import gameLost from "../sound/gameLost.mp3";
+import { useParams } from "react-router";
+
+import { resetMoves } from "../../slices/game";
+import { defaultPlayerNames } from "../../constants/players";
+import { getGameState, getPlayer, getPlayers } from "../../selectors";
+import { getColor, getPlayerColor } from "../../utils/theme";
+import Button from "../Shared/Button";
+import Center from "../Shared/Center";
+import Modal from "../Shared/Modal";
+import Section from "../Shared/Section";
+import { play } from "../../utils/sound";
+import gameWon from "../../sound/gameWon.mp3";
+import gameLost from "../../sound/gameLost.mp3";
 
 const Result = () => {
   const { gameId } = useParams();

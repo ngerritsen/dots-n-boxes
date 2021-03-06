@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-
-import Box from "./Box";
 import styled from "styled-components";
 import { math } from "polished";
-import { getSize } from "../utils/theme";
-import { getBoardSize, getGameState } from "../selectors";
+
+import Box from "./Box";
+import { getSize } from "../../utils/theme";
+import { getBoardSize, getGameState } from "../../selectors";
 
 const Board = () => {
   const { board } = useSelector(getGameState);

@@ -1,6 +1,6 @@
-import { darken, getLuminance } from "polished";
+import { darken, lighten, getLuminance } from "polished";
 import styled from "styled-components";
-import { getColor, getSize, getRadius } from "../../utils/theme";
+import { getColor, getSize, getRadius, isDark } from "../../utils/theme";
 
 const Button = styled.button`
   border: none;
@@ -26,7 +26,10 @@ const Button = styled.button`
   &:active {
     background-color: ${(props) =>
       !props.disabled &&
-      darken(0.1, getColor(props.color || "subtleBg")(props))};
+      (isDark()(props) ? lighten : darken)(
+        0.1,
+        getColor(props.color || "subtleBg")(props)
+      )};
   }
 `;
 

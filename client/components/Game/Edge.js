@@ -1,16 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { lighten } from "polished";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 
-import { getPlayerColor, getSize, getColor } from "../utils/theme";
-import { getGameState, getPlayer } from "../selectors";
-import sides from "../../shared/constants/sides";
-import { makeMove } from "../slices/game";
-import { play } from "../utils/sound";
-import takeEdge from "../sound/takeEdge.mp3";
+import { getPlayerColor, getSize, getColor } from "../../utils/theme";
+import { getGameState, getPlayer } from "../../selectors";
+import sides from "../../../shared/constants/sides";
+import { makeMove } from "../../slices/game";
+import { play } from "../../utils/sound";
+import takeEdge from "../../sound/takeEdge.mp3";
 
 const { top, bottom, left, right } = sides;
 
@@ -89,9 +88,9 @@ const StyledEdge = styled.div`
 
   &:hover {
     background-color: ${(props) =>
-      props.takenBy === -1 &&
-      !props.disabled &&
-      lighten(0.2, getPlayerColor(props.activePlayer)(props))};
+      !props.disabled && getPlayerColor(props.activePlayer)(props)};
+    opacity: ${(props) => !props.disabled && 0.5};
+  }
 `;
 
 export default Edge;

@@ -1,1 +1,8 @@
-export const defaultPlayerNames = ["Blue", "Orange"];
+export const defaultPlayerNames = [
+  "Blue",
+  "Red",
+  "Yellow",
+  "Green",
+  "Orange",
+  "Purple",
+];

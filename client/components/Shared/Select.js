@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { darken } from "polished";
+import { darken, lighten } from "polished";
 import styled from "styled-components";
-import { getColor, getSize, getRadius } from "../../utils/theme";
+import { getColor, getSize, getRadius, isDark } from "../../utils/theme";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
@@ -49,7 +49,8 @@ const SelectInput = styled.select`
   &:hover,
   &:active {
     background-color: ${(props) =>
-      !props.disabled && darken(0.1, getColor("subtleBg")(props))};
+      !props.disabled &&
+      (isDark(props) ? lighten : darken)(0.1, getColor("subtleBg")(props))};
   }
 `;
 
